@@ -1,0 +1,12 @@
+const mongoose = require('mongoose');
+const db = require('../config.js');
+
+let privacySchema = mongoose.Schema({
+  userId: {type: Schema.Types.ObjectId, ref: 'User'},
+  incognito: Boolean,
+  defaultPrivacy: String
+});
+
+let Privacy = mongoose.model('Privacy', privacySchema);
+
+module.exports = Privacy;
