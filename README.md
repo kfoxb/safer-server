@@ -1,13 +1,13 @@
 # Project Name
 
-> Pithy project description
+> An api to handle authentication, database storage, friend requests, and location data for safer-apk.
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Kyle
+  - Raffi
+  - Tiffany
+  - Dario
 
 ## Table of Contents
 
@@ -25,27 +25,27 @@
 
 ## Requirements
 
-- Node 6.4.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Node 7.6.x
+- Mysql 14.14
 
 ## Development
+1. run this command in terminal inside the db folder. This will set up the inital schema for mysql, assuming the user is root without a password.
+
+```sh
+mysql -u root < schema.sql
+```
 
 ### Installing Dependencies
 
 From within the root directory:
 
 ```sh
-npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](https://docs.google.com/spreadsheets/d/1zswwIFLl2TnROUIvWz_xeiKi4R1QUJyWA1xDT4M54XY/edit?usp=sharing)
 
 
 ## Contributing
