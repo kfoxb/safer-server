@@ -1,3 +1,4 @@
+require('dotenv').config({path: './config.env'});
 const db = require('./config.js');
 const Users = require('./Users/Users.js');
 const Location = require('./Location/Location.js');
