@@ -26,9 +26,9 @@ app.route('/api/friends/:id')
   .get(getFriendById)
   .put(updateFriendById);
 
-// app.put('/api/privacySettings', changePrivacySettings);
+app.put('/api/privacySettings', changePrivacySettings);
 
-// app.put('/api/updateCoordinates', updateCoordinates);
+app.put('/api/updateCoordinates', updateCoordinates);
 
 let port = process.env.PORT || 1337;
 
