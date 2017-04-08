@@ -6,8 +6,8 @@ const {
   getFriendById,
   updateFriendById
 } = require('./Users/Users.js');
-const { changePrivacySettings } = require('./PersonalPrivacy/PersonalPrivacy.js');
-const { updateCoordinates } = require('./Location/Location.js');
+// const { changePrivacySettings } = require('./PersonalPrivacy/PersonalPrivacy.js');
+// const { updateCoordinates } = require('./Location/Location.js');
 
 
 //this route for server side validation with Google
@@ -26,9 +26,9 @@ app.route('/api/friends/:id')
   .get(getFriendById)
   .put(updateFriendById);
 
-app.put('/api/privacySettings', changePrivacySettings);
+// app.put('/api/privacySettings', changePrivacySettings);
 
-app.put('/api/updateCoordinates', updateCoordinates);
+// app.put('/api/updateCoordinates', updateCoordinates);
 
 let port = process.env.PORT || 1337;
 
