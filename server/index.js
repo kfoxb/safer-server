@@ -6,8 +6,8 @@ const {
   getFriendById,
   updateFriendById
 } = require('./Users/Users.js');
-// const { changePrivacySettings } = require('./PersonalPrivacy/PersonalPrivacy.js');
-// const { updateCoordinates } = require('./Location/Location.js');
+const { changePrivacySettings } = require('./PersonalPrivacy/PersonalPrivacy.js');
+const { updateCoordinates } = require('./Location/Location.js');
 
 
 //this route for server side validation with Google

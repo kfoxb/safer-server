@@ -1,12 +1,14 @@
-const mongoose = require('mongoose');
+const Sequelize  = require('sequelize');
 const db = require('../config.js');
+const User = require('../Users/Users.js');
 
-let contactsSchema = mongoose.Schema({
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  friend: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  privacy: String
+let Contacts = db.define('Contacts', {
+  privacy: Sequelize.STRING
 });
 
-let Contacts = mongoose.model('Contacts', contactsSchema);
+Contacts.belongsTo(User);
+Contacts.belongsTo(User, {foreignKey: 'friendID'})
+
+Contacts.sync();
 
 module.exports = Contacts;

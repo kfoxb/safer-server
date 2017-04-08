@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
+const Sequelize  = require('sequelize');
 const db = require('../config.js');
+const User = require('../Users/Users.js');
 
-let labelsSchema = mongoose.Schema({
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  label: String,
-  coordinates: Object
+let Labels = db.define('Labels', {
+  label: Sequelize.STRING,
+  lat: Sequelize.STRING,
+  long: Sequelize.STRING
 });
 
-let Labels = mongoose.model('Labels', labelsSchema);
+Labels.belongsTo(User);
+
+Labels.sync();
 
 module.exports = Labels;

@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
+const Sequelize  = require('sequelize');
 const db = require('../config.js');
+const Users = require('../Users/Users.js')
 
-let locationSchema = mongoose.Schema({
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  coordinates: Object,
-  lastUpdate: {type: Date, default: Date.now()}
+let Location = db.define('Location', {
+  lat: Sequelize.STRING,
+  long: Sequelize.STRING,
+  lastUpdate: Sequelize.DATE
 });
 
-let Location = mongoose.model('Location', locationSchema);
+Location.belongsTo(Users);
+
+Location.sync();
 
 module.exports = Location;

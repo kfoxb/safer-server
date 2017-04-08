@@ -8,9 +8,6 @@ let User = db.define('User', {
   email: Sequelize.STRING
 });
 
-User.sync()
-.then(()=>{
-  console.log('User Table Created')
-});
+User.sync();
 
 module.exports = User;

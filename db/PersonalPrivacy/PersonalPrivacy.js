@@ -1,12 +1,14 @@
-const mongoose = require('mongoose');
+const Sequelize  = require('sequelize');
 const db = require('../config.js');
+const User = require('../Users/Users.js');
 
-let privacySchema = mongoose.Schema({
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  incognito: Boolean,
-  defaultPrivacy: String
+let Privacy = db.define('Privacy', {
+  incognito: Sequelize.BOOLEAN,
+  defaultPrivacy: Sequelize.STRING
 });
 
-let Privacy = mongoose.model('Privacy', privacySchema);
+Privacy.belongsTo(User);
+
+Privacy.sync();
 
 module.exports = Privacy;
