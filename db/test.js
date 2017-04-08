@@ -1,17 +1,21 @@
-const db = require('./config.js')
+const db = require('./config.js');
 const Users = require('./Users/Users.js');
 const Location = require('./Location/Location.js');
 const Privacy = require('./PersonalPrivacy/PersonalPrivacy.js');
 const Labels = require('./Labels/Labels.js');
 const Contacts = require('./Contacts/Contacts.js');
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 const Promises = require('bluebird');
 mongoose.Promises = Promises;
 
+
+Users.findOrCreate();
+
+
 Users.find({first: 'John'})
 .then((user) => {
-  if(user[0] !== undefined){console.log('INSERT\n', user);}
-  else{
+  if (user[0] !== undefined) { console.log('INSERT\n', user); }
+  else {
     Users.create({
       first: 'John',
       last: 'Doe',
@@ -22,8 +26,8 @@ Users.find({first: 'John'})
       console.log('New User created');
     })
     .catch(()=>{
-      console.log('error in adding test user')
-    })  
+      console.log('error in adding test user');
+    });  
   }
 })
 .catch((err) => {

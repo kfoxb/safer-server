@@ -1,4 +1,4 @@
-const Sequelize  = require('sequelize');
+const Sequelize = require('sequelize');
 const db = require('../config.js');
 const User = require('../Users/Users.js');
 
@@ -7,7 +7,7 @@ let Contacts = db.define('Contacts', {
 });
 
 Contacts.belongsTo(User);
-Contacts.belongsTo(User, {foreignKey: 'friendID'})
+Contacts.belongsTo(User, {foreignKey: 'friendID'});
 
 Contacts.sync();
 

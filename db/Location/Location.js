@@ -1,6 +1,6 @@
-const Sequelize  = require('sequelize');
+const Sequelize = require('sequelize');
 const db = require('../config.js');
-const Users = require('../Users/Users.js')
+const Users = require('../Users/Users.js');
 
 let Location = db.define('Location', {
   lat: Sequelize.STRING,
