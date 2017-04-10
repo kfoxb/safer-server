@@ -7,16 +7,13 @@ const {
   getFriendById,
   updateFriendById
 } = require('./Users/Users.js');
+
 const { updateCoordinates, updatePrivacy } = require('./Location/Location.js');
+const authorization = require('./Authorization/Authorization.js');
 
-
-//this route for server side validation with Google
-//this may actually need to be set up as middleware rather than it's own route
-//as every request may need to be validated
+//this middleware is for server side authorization from Google
 //see https://developers.google.com/identity/sign-in/android/backend-auth
-app.post('/api/validate', function(req, res) {
-  res.json('validated!');
-});
+app.use(authorization);
 
 app.route('/api/friends')
   .get(getAllFriends)
@@ -28,7 +25,7 @@ app.route('/api/friends/:id')
 
 app.put('/api/privacySettings', updatePrivacy);
 
-app.put('/api/updateCoordinates', updateCoordinates);
+app.put('/api/coordinates', updateCoordinates);
 
 let port = process.env.PORT || 1337;
 
