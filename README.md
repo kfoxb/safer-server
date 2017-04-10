@@ -21,7 +21,14 @@
 
 ## Usage
 
-> Some usage instructions
+|Method|Route|Params|Params Example|Request Data|Response Data|
+|:-:|---|---|---|---|---|
+|GET|/api/friends|N/A|N/A|N/A|JSON array of objects|
+|GET|/api/friends/:id|id = friends user_id in SQL| id = 12|N/A|JSON object|
+|   |   |   |   |   |   |
+|   |   |   |   |   |   |
+|   |   |   |   |   |   |
+|   |   |   |   |   |   |
 
 ## Requirements
 
