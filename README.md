@@ -4,10 +4,10 @@
 
 ## Team
 
-  - Kyle
-  - Raffi
-  - Tiffany
-  - Dario
+  - Kyle Bradford
+  - Raphael Feliciano
+  - Tiffany Lin
+  - Dario Artega
 
 ## Table of Contents
 
