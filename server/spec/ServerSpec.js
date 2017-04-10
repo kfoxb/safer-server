@@ -21,7 +21,8 @@ let waitForThen = function (test, cb) {
 describe('Authorization Middleware', function() {
 
   xit('Should respond with a 401 status code when provided with an invalid token', function() {
-
+    let req = new stubs.request('/api/friends', 'GET');
+    let res = new stubs.response();
     expect(res._responseCode).to.equal(401);
     expect(res._ended).to.equal(true);
   });
