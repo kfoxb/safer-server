@@ -38,7 +38,9 @@
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "mocha": "^3.2.0",
     "mocha-eslint": "^3.0.1",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0"
   },
   "babel": {
     "presets": [
