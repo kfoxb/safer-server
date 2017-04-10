@@ -37,8 +37,9 @@ Users.findOrCreate({where: {phoneNumber: '878765875'},
 // Location.findOrCreate
 /*Users.find({first: 'John'})
 .then((user) => {
-  if (user[0] !== undefined) { console.log('INSERT\n', user); }
-  else {
+  if (user[0] !== undefined) {
+    console.log('INSERT\n', user);
+  } else {
     Users.create({
       first: 'John',
       last: 'Doe',
@@ -58,10 +59,11 @@ Users.findOrCreate({where: {phoneNumber: '878765875'},
 });
 
 
-Users.find({first:'Friend'})
+Users.find({first: 'Friend'})
 .then((user) => {
-  if(user[0] !== undefined){console.log('INSERT\n', user);}
-  else{
+  if (user[0] !== undefined) { 
+    console.log('INSERT\n', user);
+  } else {
     Users.create({
       first: 'Friend',
       last: 'One',
@@ -72,8 +74,8 @@ Users.find({first:'Friend'})
       console.log('New User created');
     })
     .catch(()=>{
-      console.log('error in adding test user')
-    })  
+      console.log('error in adding test user');
+    });
   }
 })
 .catch((err) => {
@@ -82,8 +84,9 @@ Users.find({first:'Friend'})
 
 Location.find({userId: '58e6f5db24a1bf204f246deb'})
 .then((loc) => {
-  if(loc[0] !== undefined){console.log('INSERT\n', loc);}
-  else{
+  if (loc[0] !== undefined) {
+    console.log('INSERT\n', loc);
+  } else {
     Location.create({
       userId: '58e6f5db24a1bf204f246deb',
       coordinates: {
@@ -95,8 +98,8 @@ Location.find({userId: '58e6f5db24a1bf204f246deb'})
       console.log('New loc created');
     })
     .catch(()=>{
-      console.log('error in adding test loc')
-    })  
+      console.log('error in adding test loc');
+    });
   }
 })
 .catch((err) => {
@@ -105,8 +108,9 @@ Location.find({userId: '58e6f5db24a1bf204f246deb'})
 
 Privacy.find({userId: '58e6f5db24a1bf204f246deb'})
 .then((Priv) => {
-  if(Priv[0] !== undefined){console.log('INSERT\n', Priv);}
-  else{
+  if (Priv[0] !== undefined) {
+    console.log('INSERT\n', Priv);
+  } else {
     Privacy.create({
       userId: '58e6f5db24a1bf204f246deb',
       incognito: true,
@@ -116,8 +120,8 @@ Privacy.find({userId: '58e6f5db24a1bf204f246deb'})
       console.log('New privcy created');
     })
     .catch(()=>{
-      console.log('error in adding test privacy')
-    })  
+      console.log('error in adding test privacy');
+    });
   }
 })
 .catch((err) => {
@@ -126,8 +130,9 @@ Privacy.find({userId: '58e6f5db24a1bf204f246deb'})
 
 Labels.find({userId: '58e6f5db24a1bf204f246deb'})
 .then((label) => {
-  if(label[0] !== undefined){console.log('INSERT\n', label);}
-  else{
+  if (label[0] !== undefined) {
+    console.log('INSERT\n', label);
+  } else {
     Labels.create({
       userId: '58e6f5db24a1bf204f246deb',
       label: 'Home',
@@ -140,8 +145,8 @@ Labels.find({userId: '58e6f5db24a1bf204f246deb'})
       console.log('New label created');
     })
     .catch(()=>{
-      console.log('error in adding test label')
-    })  
+      console.log('error in adding test label');
+    });
   }
 })
 .catch((err) => {
@@ -150,18 +155,20 @@ Labels.find({userId: '58e6f5db24a1bf204f246deb'})
 
 Contacts.find({userId: '58e6f5db24a1bf204f246deb'})
 .then((contact) => {
-  if(contact[0] !== undefined){console.log('INSERT\n', contact);}
-  else{
+  if (contact[0] !== undefined) {
+    console.log('INSERT\n', contact);
+  } else {
     Contacts.create({
       userId: '58e6f5db24a1bf204f246deb',
       friend: '58e6fd8899ea86242964832e',
-      privacy: 'location'    })
+      privacy: 'location'
+    })
     .then(()=>{
       console.log('New contact created');
     })
     .catch(()=>{
-      console.log('error in adding test contact')
-    })  
+      console.log('error in adding test contact');
+    });
   }
 })
 .catch((err) => {
