@@ -4,10 +4,9 @@ const Users = require('../Users/Users.js');
 
 let Location = db.define('Location', {
   incognito: Sequelize.BOOLEAN,
-  defaultPrivacy: Sequelize.STRING,
+  defaultPrivacy: {type: Sequelize.STRING, allowNull: false, defaultValue: 'label'},
   lat: Sequelize.STRING,
   long: Sequelize.STRING,
-  updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
 });
 
 Location.belongsTo(Users);
