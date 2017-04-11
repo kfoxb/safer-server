@@ -14,70 +14,90 @@ Users.findOrCreate({where: {phoneNumber: '43432423'},
     email: 'tiff@email.com',
     lat: '37.758777', 
     long: '-122.436903'
-  }});
-
-Users.findOrCreate({where: {phoneNumber: '1234567'},
-  defaults: {
-    first: 'Dario',
-    last: 'Artega',
-    email: 'dario@email.com',
-    lat: '37.760041', 
-    long: '-122.428914'
-  }});
-
-Users.findOrCreate({where: {phoneNumber: '324321423'},
-  defaults: {
-    first: 'Kyle',
-    last: 'Bradford',
-    email: 'kyle@email.com',
-    lat: '37.741049', 
-    long: '-122.444415'
-  }});
-
-Users.findOrCreate({where: {phoneNumber: '878765875'},
-  defaults: {
-    first: 'Raffy',
-    last: 'Feliciano',
-    email: 'raffy@email.com',
-    lat: '37.720844', 
-    long: '-122.462258'
-  }});
-
-/*Users.find({first: 'John'})
-.then((user) => {
-  if (user[0] !== undefined) {
-    console.log('INSERT\n', user);
-  } else {
-    Users.create({
-      first: 'John',
-      last: 'Doe',
-      phoneNumber: 8181234567,
-      email: 'fake@email.com'
-    })
-    .then(()=>{
-      console.log('New User created');
-    })
-    .catch(()=>{
-      console.log('error in adding test user');
-    });  
-  }
->>>>>>> Remove location table and remove references to location table
+}})
+.then((user)=> {
+  var userId = user[0].dataValues.id;
+  Labels.create({
+    userId: userId, 
+    lat: '37.758777', 
+    long: '-122.436903',
+    label: 'Home'
+  })
+  Labels.create({
+    userId: userId,
+    lat: '37.783609', 
+    long: '-122.408940',
+    label: 'Work'
+  })
+  return Users.findOrCreate({where: {phoneNumber: '1234567'},
+    defaults: {
+      first: 'Dariooooo',
+      last: 'Artega',
+      email: 'dario@email.com',
+      lat: '37.760041', 
+      long: '-122.428914'
+    }})
 })
-.then(() => {
-  Users.findOrCreate({where: {phoneNumber: '324321423'},
+.then((user) => {
+  var userId = user[0].dataValues.id;
+  Labels.create({
+    userId: userId, 
+    lat: '37.760041',
+    long: '-122.428914',
+    label: 'Home'
+  })
+  Labels.create({
+    userId: userId,
+    lat: '37.783609', 
+    long: '-122.408940',
+    label: 'Work'
+  })
+  return Users.findOrCreate({where: {phoneNumber: '324321423'},
     defaults: {
       first: 'Kyle',
       last: 'Bradford',
-      email: 'kyle@email.com'
-    }});
+      email: 'kyle@email.com',
+      lat: '37.741049', 
+      long: '-122.444415'
+    }})
 })
-.then(() => {
-  Users.findOrCreate({where: {phoneNumber: '878765875'},
+.then((user) => {
+  var userId = user[0].dataValues.id;
+  Labels.create({
+    userId: userId, 
+    lat: '37.741049', 
+    long: '-122.444415',
+    label: 'Home'
+  })
+  Labels.create({
+    userId: userId,
+    lat: '37.783609', 
+    long: '-122.408940',
+    label: 'Work'
+  })
+  return Users.findOrCreate({where: {phoneNumber: '878765875'},
     defaults: {
       first: 'Raffy',
       last: 'Feliciano',
-      email: 'raffy@email.com'
-    }});
+      email: 'raffy@email.com',
+      lat: '37.720844', 
+      long: '-122.462258'
+    }})
+})
+.then((user) => {
+  var userId = user[0].dataValues.id;
+  Labels.create({
+    userId: userId, 
+    lat: '37.720844', 
+    long: '-122.462258',
+    label: 'Home'
+  })
+  Labels.create({
+    userId: userId,
+    lat: '37.783609', 
+    long: '-122.408940',
+    label: 'Work'
+  })  
 })
 .then(() => {
   Contacts.findOrCreate({where: {privacy: 'pending', userId: 1}, 
@@ -123,5 +143,3 @@ Users.findOrCreate({where: {phoneNumber: '878765875'},
       friendId: 3
     }});
 });
-
-
