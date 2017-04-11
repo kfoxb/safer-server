@@ -24,10 +24,15 @@
   "homepage": "https://github.com/blink672/safer-server#readme",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
     "mongoose": "^4.9.3",
     "mysql": "^2.13.0",
+    "phone": "^1.0.9",
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.43.2",
+    "react-native-contacts": "^0.8.1",
     "sequelize": "^3.30.4"
   },
   "devDependencies": {

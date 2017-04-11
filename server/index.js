@@ -1,4 +1,5 @@
 require('dotenv').config({path: './config.env'});
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const { 
@@ -10,6 +11,13 @@ const {
 
 const { updateCoordinates, updatePrivacy } = require('./Location/Location.js');
 const authorization = require('./Authorization/Authorization.js');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+//this route for server side validation with Google
+//this may actually need to be set up as middleware rather than it's own route
+//as every request may need to be validated
 
 //this middleware is for server side authorization from Google
 //see https://developers.google.com/identity/sign-in/android/backend-auth
