@@ -1,7 +1,6 @@
 const Users = require('../../db/Users/Users.js');
 const Contacts = require('../../db/Contacts/Contacts.js');
 const Labels = require('../../db/Labels/Labels.js');
-const Location = require('../../db/Location/Location.js');
 const phone = require('phone');
 
 exports.addFriend = (req, res) => {
@@ -34,5 +33,13 @@ exports.getFriendById = (req, res) => {
 };
 
 exports.updateFriendById = (req, res) => {
+  res.status(200).json({});
+};
+
+exports.updateCoordinates = () => {
+  res.status(200).json({});
+};
+
+exports.updatePrivacy = () => {
   res.status(200).json({});
 };

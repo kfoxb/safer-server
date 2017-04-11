@@ -6,6 +6,10 @@ let Users = db.define('Users', {
   last: Sequelize.STRING,
   phoneNumber: {type: Sequelize.STRING, unique: true},
   email: {type: Sequelize.STRING, unique: true},
+  lat: Sequelize.STRING,
+  long: Sequelize.STRING,
+  incognito: Sequelize.BOOLEAN,
+  defaultPrivacy: {type: Sequelize.STRING, allowNull: false, defaultValue: 'label'},
 });
 
 Users.sync();

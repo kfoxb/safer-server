@@ -6,10 +6,11 @@ const {
   getAllFriends,
   addFriend,
   getFriendById,
-  updateFriendById
+  updateFriendById,
+  updateCoordinates,
+  updatePrivacy
 } = require('./Users/Users.js');
 
-const { updateCoordinates, updatePrivacy } = require('./Location/Location.js');
 const authorization = require('./Authorization/Authorization.js');
 
 app.use(bodyParser.json());
