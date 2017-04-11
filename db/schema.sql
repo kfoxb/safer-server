@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS saferDb;
+
 CREATE DATABASE saferDb;
 
 USE saferDb;

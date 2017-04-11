@@ -10,6 +10,8 @@ let Labels = db.define('Labels', {
 
 Labels.belongsTo(User);
 
-Labels.sync();
+setTimeout(() => {
+  Labels.sync();
+}, 500);
 
 module.exports = Labels;

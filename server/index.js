@@ -7,8 +7,7 @@ const {
   getFriendById,
   updateFriendById
 } = require('./Users/Users.js');
-const { changePrivacySettings } = require('./PersonalPrivacy/PersonalPrivacy.js');
-const { updateCoordinates } = require('./Location/Location.js');
+const { updateCoordinates, updatePrivacy } = require('./Location/Location.js');
 
 
 //this route for server side validation with Google
@@ -16,7 +15,7 @@ const { updateCoordinates } = require('./Location/Location.js');
 //as every request may need to be validated
 //see https://developers.google.com/identity/sign-in/android/backend-auth
 app.post('/api/validate', function(req, res) {
-  res.send('validated!');
+  res.json('validated!');
 });
 
 app.route('/api/friends')
@@ -27,7 +26,7 @@ app.route('/api/friends/:id')
   .get(getFriendById)
   .put(updateFriendById);
 
-app.put('/api/privacySettings', changePrivacySettings);
+app.put('/api/privacySettings', updatePrivacy);
 
 app.put('/api/updateCoordinates', updateCoordinates);
 

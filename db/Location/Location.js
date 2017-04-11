@@ -3,13 +3,17 @@ const db = require('../config.js');
 const Users = require('../Users/Users.js');
 
 let Location = db.define('Location', {
+  incognito: Sequelize.BOOLEAN,
+  defaultPrivacy: Sequelize.STRING,
   lat: Sequelize.STRING,
   long: Sequelize.STRING,
-  lastUpdate: Sequelize.DATE
+  updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
 });
 
 Location.belongsTo(Users);
 
-Location.sync();
+setTimeout(() => {
+  Location.sync();
+}, 500);
 
 module.exports = Location;

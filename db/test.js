@@ -1,18 +1,41 @@
 const db = require('./config.js');
 const Users = require('./Users/Users.js');
 const Location = require('./Location/Location.js');
-const Privacy = require('./PersonalPrivacy/PersonalPrivacy.js');
 const Labels = require('./Labels/Labels.js');
 const Contacts = require('./Contacts/Contacts.js');
 const Sequelize = require('sequelize');
-const Promises = require('bluebird');
-mongoose.Promises = Promises;
+const Promise = require('bluebird');
 
+Users.findOrCreate({where: {phoneNumber: '43432423'},
+  defaults: {
+    first: 'Tiffany',
+    last: 'Lin',
+    email: 'tiff@email.com'
+  }});
 
-Users.findOrCreate();
+Users.findOrCreate({where: {phoneNumber: '1234567'},
+  defaults: {
+    first: 'Dario',
+    last: 'Artega',
+    email: 'dario@email.com'
+  }});
 
+Users.findOrCreate({where: {phoneNumber: '324321423'},
+  defaults: {
+    first: 'Kyle',
+    last: 'Bradford',
+    email: 'kyle@email.com'
+  }});
 
-Users.find({first: 'John'})
+Users.findOrCreate({where: {phoneNumber: '878765875'},
+  defaults: {
+    first: 'Raffy',
+    last: 'Feliciano',
+    email: 'raffy@email.com'
+  }});
+
+// Location.findOrCreate
+/*Users.find({first: 'John'})
 .then((user) => {
   if (user[0] !== undefined) { console.log('INSERT\n', user); }
   else {
@@ -143,4 +166,4 @@ Contacts.find({userId: '58e6f5db24a1bf204f246deb'})
 })
 .catch((err) => {
   console.log('contact does not exist', err);
-});
+});*/

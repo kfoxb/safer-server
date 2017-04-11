@@ -7,8 +7,10 @@ let Contacts = db.define('Contacts', {
 });
 
 Contacts.belongsTo(User);
-Contacts.belongsTo(User, {foreignKey: 'friendID'});
+Contacts.belongsTo(User, {foreignKey: 'friendId'});
 
-Contacts.sync();
+setTimeout(() => {
+  Contacts.sync();
+}, 500);
 
 module.exports = Contacts;

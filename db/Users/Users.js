@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../config.js');
 
-let User = db.define('User', {
+let Users = db.define('Users', {
   first: Sequelize.STRING,
   last: Sequelize.STRING,
   phoneNumber: {type: Sequelize.STRING, unique: true},
-  email: Sequelize.STRING
+  email: {type: Sequelize.STRING, unique: true},
 });
 
-User.sync();
+Users.sync();
 
-module.exports = User;
+module.exports = Users;
