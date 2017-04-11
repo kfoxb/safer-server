@@ -11,28 +11,36 @@ Users.findOrCreate({where: {phoneNumber: '43432423'},
   defaults: {
     first: 'Tiffany',
     last: 'Lin',
-    email: 'tiff@email.com'
+    email: 'tiff@email.com',
+    lat: '37.758777', 
+    long: '-122.436903'
   }});
 
 Users.findOrCreate({where: {phoneNumber: '1234567'},
   defaults: {
     first: 'Dario',
     last: 'Artega',
-    email: 'dario@email.com'
+    email: 'dario@email.com',
+    lat: '37.760041', 
+    long: '-122.428914'
   }});
 
 Users.findOrCreate({where: {phoneNumber: '324321423'},
   defaults: {
     first: 'Kyle',
     last: 'Bradford',
-    email: 'kyle@email.com'
+    email: 'kyle@email.com',
+    lat: '37.741049', 
+    long: '-122.444415'
   }});
 
 Users.findOrCreate({where: {phoneNumber: '878765875'},
   defaults: {
     first: 'Raffy',
     last: 'Feliciano',
-    email: 'raffy@email.com'
+    email: 'raffy@email.com',
+    lat: '37.720844', 
+    long: '-122.462258'
   }});
 
 /*Users.find({first: 'John'})

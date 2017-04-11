@@ -8,7 +8,7 @@ let Users = db.define('Users', {
   email: {type: Sequelize.STRING, unique: true},
   lat: Sequelize.STRING,
   long: Sequelize.STRING,
-  incognito: Sequelize.BOOLEAN,
+  incognito: {type: Sequelize.BOOLEAN, defaultValue: false},
   defaultPrivacy: {type: Sequelize.STRING, allowNull: false, defaultValue: 'label'},
 });
 
