@@ -12,166 +12,74 @@ Users.findOrCreate({where: {phoneNumber: '43432423'},
     first: 'Tiffany',
     last: 'Lin',
     email: 'tiff@email.com'
-  }});
-
-Users.findOrCreate({where: {phoneNumber: '1234567'},
-  defaults: {
-    first: 'Dario',
-    last: 'Artega',
-    email: 'dario@email.com'
-  }});
-
-Users.findOrCreate({where: {phoneNumber: '324321423'},
-  defaults: {
-    first: 'Kyle',
-    last: 'Bradford',
-    email: 'kyle@email.com'
-  }});
-
-Users.findOrCreate({where: {phoneNumber: '878765875'},
-  defaults: {
-    first: 'Raffy',
-    last: 'Feliciano',
-    email: 'raffy@email.com'
-  }});
-
-// Location.findOrCreate
-/*Users.find({first: 'John'})
-.then((user) => {
-  if (user[0] !== undefined) {
-    console.log('INSERT\n', user);
-  } else {
-    Users.create({
-      first: 'John',
-      last: 'Doe',
-      phoneNumber: 8181234567,
-      email: 'fake@email.com'
-    })
-    .then(()=>{
-      console.log('New User created');
-    })
-    .catch(()=>{
-      console.log('error in adding test user');
-    });  
-  }
+  }})
+.then(() => {
+  Users.findOrCreate({where: {phoneNumber: '1234567'},
+    defaults: {
+      first: 'Dario',
+      last: 'Artega',
+      email: 'dario@email.com'
+    }}); 
 })
-.catch((err) => {
-  console.log('User does not exist');
+.then(() => {
+  Users.findOrCreate({where: {phoneNumber: '324321423'},
+    defaults: {
+      first: 'Kyle',
+      last: 'Bradford',
+      email: 'kyle@email.com'
+    }});
+})
+.then(() => {
+  Users.findOrCreate({where: {phoneNumber: '878765875'},
+    defaults: {
+      first: 'Raffy',
+      last: 'Feliciano',
+      email: 'raffy@email.com'
+    }});
+})
+.then(() => {
+  Contacts.findOrCreate({where: {privacy: 'pending', userId: 1}, 
+    defaults: {
+      friendId: 2
+    }});
+
+  Contacts.findOrCreate({where: {privacy: 'label', userId: 1}, 
+    defaults: {
+      friendId: 4
+    }});
+})
+.then(() => {
+  Contacts.findOrCreate({where: {privacy: 'pending', userId: 2}, 
+    defaults: {
+      friendId: 3
+    }});
+
+  Contacts.findOrCreate({where: {privacy: 'label', userId: 2}, 
+    defaults: {
+      friendId: 1
+    }});
+})
+.then(() => {
+  Contacts.findOrCreate({where: {privacy: 'pending', userId: 3}, 
+    defaults: {
+      friendId: 4
+    }});
+
+  Contacts.findOrCreate({where: {privacy: 'label', userId: 3}, 
+    defaults: {
+      friendId: 2
+    }});
+})
+.then(() => {
+  Contacts.findOrCreate({where: {privacy: 'pending', userId: 4}, 
+    defaults: {
+      friendId: 1
+    }});
+
+  Contacts.findOrCreate({where: {privacy: 'label', userId: 4}, 
+    defaults: {
+      friendId: 3
+    }});
 });
 
 
-Users.find({first: 'Friend'})
-.then((user) => {
-  if (user[0] !== undefined) { 
-    console.log('INSERT\n', user);
-  } else {
-    Users.create({
-      first: 'Friend',
-      last: 'One',
-      phoneNumber: 8187654321,
-      email: 'fake@email.com'
-    })
-    .then(()=>{
-      console.log('New User created');
-    })
-    .catch(()=>{
-      console.log('error in adding test user');
-    });
-  }
-})
-.catch((err) => {
-  console.log('User does not exist');
-});
-
-Location.find({userId: '58e6f5db24a1bf204f246deb'})
-.then((loc) => {
-  if (loc[0] !== undefined) {
-    console.log('INSERT\n', loc);
-  } else {
-    Location.create({
-      userId: '58e6f5db24a1bf204f246deb',
-      coordinates: {
-        lat: 123,
-        long: 123
-      }
-    })
-    .then(()=>{
-      console.log('New loc created');
-    })
-    .catch(()=>{
-      console.log('error in adding test loc');
-    });
-  }
-})
-.catch((err) => {
-  console.log('Loc does not exist');
-});
-
-Privacy.find({userId: '58e6f5db24a1bf204f246deb'})
-.then((Priv) => {
-  if (Priv[0] !== undefined) {
-    console.log('INSERT\n', Priv);
-  } else {
-    Privacy.create({
-      userId: '58e6f5db24a1bf204f246deb',
-      incognito: true,
-      defaultPrivacy: 'label' 
-    })
-    .then(()=>{
-      console.log('New privcy created');
-    })
-    .catch(()=>{
-      console.log('error in adding test privacy');
-    });
-  }
-})
-.catch((err) => {
-  console.log('Privacy does not exist', err);
-});
-
-Labels.find({userId: '58e6f5db24a1bf204f246deb'})
-.then((label) => {
-  if (label[0] !== undefined) {
-    console.log('INSERT\n', label);
-  } else {
-    Labels.create({
-      userId: '58e6f5db24a1bf204f246deb',
-      label: 'Home',
-      coordinates: {
-        lat: 123,
-        long: 123
-      }
-    })
-    .then(()=>{
-      console.log('New label created');
-    })
-    .catch(()=>{
-      console.log('error in adding test label');
-    });
-  }
-})
-.catch((err) => {
-  console.log('Label does not exist', err);
-});
-
-Contacts.find({userId: '58e6f5db24a1bf204f246deb'})
-.then((contact) => {
-  if (contact[0] !== undefined) {
-    console.log('INSERT\n', contact);
-  } else {
-    Contacts.create({
-      userId: '58e6f5db24a1bf204f246deb',
-      friend: '58e6fd8899ea86242964832e',
-      privacy: 'location'
-    })
-    .then(()=>{
-      console.log('New contact created');
-    })
-    .catch(()=>{
-      console.log('error in adding test contact');
-    });
-  }
-})
-.catch((err) => {
-  console.log('contact does not exist', err);
-});*/

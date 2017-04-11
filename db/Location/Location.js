@@ -11,8 +11,6 @@ let Location = db.define('Location', {
 
 Location.belongsTo(Users);
 
-setTimeout(() => {
-  Location.sync();
-}, 500);
+Location.sync();
 
 module.exports = Location;
