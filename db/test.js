@@ -94,7 +94,23 @@ Users.findOrCreate({where: {phoneNumber: '+13107381985'},
     long: '-122.408940',
     label: 'Work'
   }); 
-}).then(() => {
+  Users.findOrCreate({where: {phoneNumber: '+18056377243'},
+    defaults: {
+      first: 'Friend',
+      last: 'Dummy1',
+      email: 'dummy1@email.com',
+      lat: '37.720844', 
+      long: '-122.462258'
+    }});
+  Users.findOrCreate({where: {phoneNumber: '+16505348330'},
+    defaults: {
+      first: 'Friend',
+      last: 'Dummy2',
+      email: 'dummy2@email.com',
+      lat: '37.720844', 
+      long: '-122.462258'
+    }})
+.then(() => {
   Contacts.findOrCreate({where: {privacy: 'pending', userId: 1}, 
     defaults: {
       friendId: 2
