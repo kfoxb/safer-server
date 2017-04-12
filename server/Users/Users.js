@@ -5,8 +5,21 @@ const Labels = require('../../db/Labels/Labels.js');
 const phone = require('phone');
 
 exports.addFriend = (req, res) => {
-  console.log('something');
-  res.status(201).json('hello');
+  console.log(req.body);
+
+  let contact = req.body;
+
+  let newFriendship = Users.findOne({ where: {phoneNumber: phone(contact.phoneNumber)[0]} } )
+  .then( user => {
+    let userData = user.get();
+    return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'pending'})
+    .then((newFriendship) => {
+      console.log(newFriendship.get);
+      let newFriend = newFriendship.get();
+      return newFriend;
+    });
+  }); 
+  Promise.all(newFriendship).then(() => res.status(201).json(newFriendship) );
 };
 
 exports.getAllFriendData = (req, res, next) => {
@@ -52,7 +65,6 @@ exports.getContactInformation = (req, res) => {
       contact.hasApp = userExist;
     })
     .then(()=>{
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', contact);
       return contact;
     });
   })

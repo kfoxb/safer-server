@@ -109,8 +109,8 @@ Users.findOrCreate({where: {phoneNumber: '+13107381985'},
       email: 'dummy2@email.com',
       lat: '37.720844', 
       long: '-122.462258'
-    }})
-.then(() => {
+    }});
+}).then(() => {
   Contacts.findOrCreate({where: {privacy: 'pending', userId: 1}, 
     defaults: {
       friendId: 2
