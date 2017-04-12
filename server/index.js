@@ -33,7 +33,7 @@ app.route('/api/friends/:id')
   .get(getFriendById)
   .put(updateFriendById);
 
-app.get('/api/contacts/:numbers', getContactInformation);
+app.post('/api/contacts', getContactInformation);
 
 app.put('/api/privacySettings', updatePrivacy);
 

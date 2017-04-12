@@ -41,22 +41,23 @@ exports.getFriendById = (req, res) => {
 };
 
 exports.getContactInformation = (req, res) => {
-  console.log(req.params);
-  let contactArray = req.params.numbers;
+  console.log(req.body);
+  let contactArray = req.body.friends;
 
   Promise.map(contactArray, (contact) => {
     let phoneNumber = phone(contact.phoneNumber);
     return Users.findOne( {where: {phoneNumber: phoneNumber[0]} } )
     .then((user) => {
-      let userExist = (user === null);
+      let userExist = !(user === null);
       contact.hasApp = userExist;
     })
     .then(()=>{
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', contact);
       return contact;
     });
   })
   .then( results => {
-    console.log(results);
+    // console.log(results);
     res.status(200).json(results);
   });
 };

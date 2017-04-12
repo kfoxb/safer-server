@@ -7,7 +7,7 @@ const Contacts = require('./Contacts/Contacts.js');
 const Sequelize = require('sequelize');
 const Promise = require('bluebird');
 
-Users.findOrCreate({where: {phoneNumber: '43432423'},
+Users.findOrCreate({where: {phoneNumber: '+13107381985'},
   defaults: {
     first: 'Tiffany',
     last: 'Lin',
