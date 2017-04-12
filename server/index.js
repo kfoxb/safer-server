@@ -33,7 +33,11 @@ app.route('/api/friends/:id')
   .get(getFriendById)
   .put(updateFriendById);
 
+/******************************************/
+/*Did Post Because GET was stringifying the array weird*/
+
 app.post('/api/contacts', getContactInformation);
+/******************************************/
 
 app.put('/api/privacySettings', updatePrivacy);
 
