@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const { 
-  getAllFriendIds,
   getAllFriendData,
   getFriendById,
   addFriend,
   updateFriendById,
   updatePrivacy,
   updateCoordinates,
+  getContactInformation,
 } = require('./Users/Users.js');
 
 const authorization = require('./Authorization/Authorization.js');
@@ -26,12 +26,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(authorization);
 
 app.route('/api/friends')
-  .get(getAllFriendIds, getAllFriendData)
+  .get(getAllFriendData)
   .post(addFriend);
 
 app.route('/api/friends/:id')
   .get(getFriendById)
   .put(updateFriendById);
+
+app.get('/api/contacts/:numbers', getContactInformation);
 
 app.put('/api/privacySettings', updatePrivacy);
 

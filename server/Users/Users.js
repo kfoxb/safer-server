@@ -9,44 +9,56 @@ exports.addFriend = (req, res) => {
   res.status(201).json('hello');
 };
 
-exports.getAllFriendIds = (req, res, next) => {
-  console.log(req.user);
-
+exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
   Contacts.findAll( { where: {userId: req.user.id} } )
   .then((friends) => {
-    req.body.friendIds = friends.map((friend) => {
-      let status = friend.get('privacy');
-      let id = friend.get('friendId');
-      return {id: id, status: status};
-    });
-  })
-  .then(() => {
-    next();
-  });
-};
+    Promise.map(friends, (friend) => {
+      let friendData = friend.get();
+      let friendObj = {
+        privacy: friendData.privacy
+      };
+      return Users.findOne( { where: {id: friendData.friendId} } )
+      .then((user) => {
+        let userData = user.get();
 
-exports.getAllFriendData = (req, res) => {
-  console.log('is getallfriendData', req.body.friendIds);
-  let friendArray = req.body.friendIds;
-  let length = friendArray.length;
-
-  let counter = 0;
-
-  friendArray.forEach((friend) => {
-    Users.findOne( { where: {id: friend.id} } )
-    .then((user) => {
-      let friendData = user.get();
-      friend.first = friendData.first;
-      friend.last = friendData.last;
-      counter++;
-      if (counter === length) { res.status(200).json(friendArray); }
+        friendObj.first = userData.first;
+        friendObj.last = userData.last;
+      }).
+      then(() => {
+        return friendObj;
+      });
+    })
+    .then( result => {
+      console.log(result);
+      res.status(200).send(result); 
     });
   });
 };
 
 exports.getFriendById = (req, res) => {
   res.status(200).json({});
+};
+
+exports.getContactInformation = (req, res) => {
+  console.log(req.params);
+  let contactArray = req.params.numbers;
+
+  Promise.map(contactArray, (contact) => {
+    let phoneNumber = phone(contact.phoneNumber);
+    return Users.findOne( {where: {phoneNumber: phoneNumber[0]} } )
+    .then((user) => {
+      let userExist = (user === null);
+      contact.hasApp = userExist;
+    })
+    .then(()=>{
+      return contact;
+    });
+  })
+  .then( results => {
+    console.log(results);
+    res.status(200).json(results);
+  });
 };
 
 exports.updateFriendById = (req, res) => {
