@@ -8,6 +8,8 @@ const {
   getFriendById,
   addFriend,
   updateFriendById,
+  updatePrivacy,
+  updateCoordinates,
 } = require('./Users/Users.js');
 
 const authorization = require('./Authorization/Authorization.js');
