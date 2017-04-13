@@ -33,7 +33,6 @@ exports.getAllFriendData = (req, res, next) => {
       return Users.findOne( { where: {id: friendData.friendId} } )
       .then((user) => {
         let userData = user.get();
-
         friendObj.first = userData.first;
         friendObj.last = userData.last;
       }).
@@ -52,23 +51,31 @@ exports.getFriendById = (req, res) => {
 };
 
 exports.getContactInformation = (req, res) => {
-  console.log(req.body);
   let contactArray = req.body.friends;
 
-  Promise.map(contactArray, (contact) => {
+  let notFriends = [];
+  Promise.each(contactArray, (contact) => {
     let phoneNumber = phone(contact.phoneNumber);
     return Users.findOne( {where: {phoneNumber: phoneNumber[0]} } )
     .then((user) => {
-      let userExist = !(user === null);
-      contact.hasApp = userExist;
-    })
-    .then(()=>{
-      return contact;
+      if ( user !== null ) {
+        let userData = user.get();
+        return Contacts.findOne({where: {userId: req.user.id, friendId: userData.id} } )
+        .then( user => {
+          if (user === null) {
+            contact.hasApp = true;
+            notFriends.push(contact);  
+          }
+        });
+      } else {
+        contact.app = false;
+        notFriends.push(contact);
+      }
+      // let userExist = !(user === null);
     });
   })
   .then( results => {
-    // console.log(results);
-    res.status(200).json(results);
+    res.status(200).json(notFriends);
   });
 };
 
