@@ -163,7 +163,7 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
   return Users.findOrCreate({where: {phoneNumber: '1234567'},
     defaults: {
       first: 'Dariooooo',
-      last: 'Artega',
+      last: 'Arteaga',
       email: 'dario@email.com',
       lat: '37.760041', 
       long: '-122.428914'
