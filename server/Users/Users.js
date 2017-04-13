@@ -37,7 +37,7 @@ exports.getAllFriendData = (req, res, next) => {
           let userData = user.get();
           friendObj.first = userData.first;
           friendObj.last = userData.last;
-          console.log('userData in users.js: ', userData);
+          // console.log('userData in users.js: ', userData);
         })
       .then(() => {
           return friendObj;
@@ -86,10 +86,11 @@ exports.updateFriendById = (req, res) => {
   res.status(200).json({});
 };
 
-exports.updateCoordinates = () => {
+exports.updateCoordinates = (req, res) => {
   res.status(200).json({});
 };
 
-exports.updatePrivacy = () => {
-  res.status(200).json({});
+exports.updatePrivacy = (req, res) => {
+  console.log('please work');
+  res.status(200).json({hello: 'hello'});
 };
