@@ -21,6 +21,8 @@ exports.addFriend = (req, res) => {
   });
 };
 
+// TODO: Second half
+//http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
   Contacts.findAll( { where: {userId: req.user.id} } )
@@ -32,13 +34,14 @@ exports.getAllFriendData = (req, res, next) => {
       };
       return Users.findOne( { where: {id: friendData.friendId} } )
       .then((user) => {
-        let userData = user.get();
-        friendObj.first = userData.first;
-        friendObj.last = userData.last;
-      }).
-      then(() => {
-        return friendObj;
-      });
+          let userData = user.get();
+          friendObj.first = userData.first;
+          friendObj.last = userData.last;
+          console.log('userData in users.js: ', userData);
+        })
+      .then(() => {
+          return friendObj;
+        });
     })
     .then( result => {
       res.status(200).send(result); 
