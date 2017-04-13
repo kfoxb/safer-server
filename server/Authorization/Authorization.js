@@ -1,7 +1,6 @@
 const Users = require('../../db/Users/Users.js');
 
 module.exports = (req, res, next) => {
-  console.log('hi');
-  req.user = {id: 4};
+  req.user = {id: 1};
   next();
 };
