@@ -4,6 +4,8 @@ const db = require('./config.js');
 const Users = require('./Users/Users.js');
 const Labels = require('./Labels/Labels.js');
 const Contacts = require('./Contacts/Contacts.js');
+const Groups = require('./Groups/Groups.js');
+const GroupMembers = require('./GroupMembers/GroupMembers.js');
 const Sequelize = require('sequelize');
 const Promise = require('bluebird');
 
