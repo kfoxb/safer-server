@@ -1,3 +1,4 @@
+[![Travis](https://img.shields.io/travis/blink672/safer-server.svg)]()
 # Project Name
 
 > An api to handle authentication, database storage, friend requests, and location data for safer-apk.
