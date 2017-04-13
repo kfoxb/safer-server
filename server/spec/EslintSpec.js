@@ -1,3 +1,4 @@
+require('dotenv').config({path: './config.env'});
 const lint = require('mocha-eslint');
  
 // Array of paths to lint 
