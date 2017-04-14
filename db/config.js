@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
-const mysql = require('mysql');
-
-let dbName = 'saferDb';
+const dbName = 'saferDb';
 
 const db = new Sequelize(process.env.CLEARDB_DATABASE_URL, {
   logging: false
