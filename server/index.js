@@ -16,7 +16,6 @@ const { updateFCMToken } = require('./Firebase/Firebase.js');
 const { addGroup, getGroups, getGroupUsers } = require('./Groups/Groups.js');
 
 const authorization = require('./Authorization/Authorization.js');
-
 const {addLabel, getAllFences} = require('./Labels/Labels.js');
 
 app.use(bodyParser.json({extended: true}));
@@ -35,6 +34,8 @@ app.route('/api/labels')
   .get(getAllFences)
   .post(addLabel);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(authorization);
 
 app.route('/api/groups')
