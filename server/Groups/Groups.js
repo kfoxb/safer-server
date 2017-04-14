@@ -8,9 +8,18 @@ const phone = require('phone');
 exports.addGroup = (req, res) => {
   let groupSettings = req.body.groupSettings;
 
-  let groupId = Groups.create({userId: req.user.id, name: groupSettings.groupName, privacy: groupSettings.privacy})
-  .then( newGroupInst => {
-    return newGroupInst.get();
+  let groupId = Groups.findOrCreate({where: {userId: req.user.id, name: groupSettings.groupName}, 
+    default: {
+      privacy: groupSettings.privacy
+    }
+  })
+  .spread( (newGroupInst, create) => {
+    console.log(create);
+    if (create) {
+      return newGroupInst.get();
+    } else {
+      throw 'Exists';
+    }
   });
 
   let userId = Promise.map(groupSettings.users, (user) => {
@@ -25,10 +34,15 @@ exports.addGroup = (req, res) => {
     });
   })
   .then( results => {
+    console.log(results);
     res.status(201).json('SUCCESS!!! Group Add');
   })
   .catch( err => {
-    res.status(400).json(`Error in adding group member ${err}`);
+    if (err === 'exist') {
+      res.status(409).json('Group already exist');
+    } else {
+      res.status(400).json(`Error in adding group member ${err}`);
+    }
   });
 };
 
@@ -46,4 +60,10 @@ exports.getGroups = (req, res) => {
   .then(groupData => {
     res.status(200).json(groupData); 
   });
+};
+
+exports.getGroupUsers = (req, res) => {
+  console.log('in get group users');
+
+  res.status(200).json('FROM SERVER GROUP USER LKSJDFOPUWHEFK:SJHF');
 };

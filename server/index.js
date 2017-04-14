@@ -11,7 +11,7 @@ const {
   updateCoordinates,
   getContactInformation,
 } = require('./Users/Users.js');
-const { addGroup, getGroups } = require('./Groups/Groups.js');
+const { addGroup, getGroups, getGroupUsers } = require('./Groups/Groups.js');
 
 const authorization = require('./Authorization/Authorization.js');
 
@@ -36,6 +36,8 @@ app.route('/api/groups')
   .post(addGroup)
   .get(getGroups);
   
+app.get('/api/groupUsers', getGroupUsers);
+
 app.route('/api/friends')
   .get(getAllFriendData)
   .post(addFriend);
