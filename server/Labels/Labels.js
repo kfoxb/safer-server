@@ -26,8 +26,7 @@ exports.addLabel = (req, res) => {
     lng_init: req.body.polygon[4].lat
   })
     .then((fence) => {
-      res.status(201).json({});
-      console.log('everything ok')
+      res.status(201).json(`${req.body.label} created succesfully!`);
     })
     .catch((error) => {
       console.log('errored out', error)
@@ -35,3 +34,32 @@ exports.addLabel = (req, res) => {
     })
   })
 }
+
+exports.getAllFences = (req, res) => {
+  console.log('Inside the get route and in the getAllFences model')
+  console.log('------- PARAMS ******', req.params)
+  Users.findOne({
+    where: {
+      phoneNumber: req.param('id')
+    }
+  })
+  .then((user) => {
+    console.log(user)
+    Labels.findAll({
+      where: {
+        UserId: user.dataValues.id
+      }
+    })
+      .then((fences) => {
+        console.log('These are the fences',fences)
+        res.status(200).json(fences);
+      })
+      .catch((error) => {
+        console.log('errored out from retrieving fences', error)
+        res.status(404).json('ERROR!')
+      })
+  })
+}
+
+//Need to get the user's phone number from the params of the url
+//there's no body on a get request

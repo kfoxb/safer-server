@@ -14,7 +14,9 @@ const {
 
 const authorization = require('./Authorization/Authorization.js');
 
-app.use(bodyParser.json());
+const {addLabel, getAllFences} = require('./Labels/Labels.js');
+
+app.use(bodyParser.json({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 
 //this route for server side validation with Google
@@ -23,6 +25,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //this middleware is for server side authorization from Google
 //see https://developers.google.com/identity/sign-in/android/backend-auth
+app.route('/api/labels')
+  .get(getAllFences)
+  .post(addLabel);
+
 app.use(authorization);
 
 app.route('/api/friends')
