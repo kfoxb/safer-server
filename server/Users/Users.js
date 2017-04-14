@@ -91,6 +91,21 @@ exports.updateCoordinates = (req, res) => {
 };
 
 exports.updatePrivacy = (req, res) => {
-  console.log('please work');
-  res.status(200).json({hello: 'hello'});
+  // TODO: set a userId on the req.body to query the db with
+  // currently hardcoding to 1
+  var toUpdate = {};
+  if (req.body.privacy) {
+    toUpdate = { defaultPrivacy: req.body.privacy };
+  } else if (req.body.incognito) {
+    toUpdate = { incognito: req.body.incognito };
+  }
+  
+  Users.findOne({where: {id: req.body.userId}})
+  .then((user) => {
+    return user.update(toUpdate)
+  }).then((user) => {
+    res.status(200).send();
+  }).catch((err) => {
+    res.status(500).json({err: err});
+  })
 };
