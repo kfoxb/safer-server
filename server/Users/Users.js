@@ -37,7 +37,7 @@ exports.getAllFriendData = (req, res, next) => {
         let userData = user.get();
         friendObj.first = userData.first;
         friendObj.last = userData.last;
-        // console.log('userData in users.js: ', userData);
+        friendObj.phoneNumber = userData.phoneNumber;
       })
       .then(() => {
         return friendObj;
