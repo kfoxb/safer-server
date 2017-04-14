@@ -6,9 +6,6 @@ const GroupMembers = require('../../db/GroupMembers/GroupMembers.js');
 const phone = require('phone');
 
 exports.addGroup = (req, res) => {
-  console.log(req.body.groupSettings);
-  console.log(req.user.id);
-
   let groupSettings = req.body.groupSettings;
 
   let groupId = Groups.create({userId: req.user.id, name: groupSettings.groupName, privacy: groupSettings.privacy})
@@ -32,5 +29,21 @@ exports.addGroup = (req, res) => {
   })
   .catch( err => {
     res.status(400).json(`Error in adding group member ${err}`);
+  });
+};
+
+exports.getGroups = (req, res) => {
+  let groupInst = Groups.findAll({where: {userId: req.user.id} } )
+  .then(groups => {
+    return groups;
+  });
+
+  let groupData = Promise.map(groupInst, (group) => {
+    return group.get();
+  });
+
+  Promise.all(groupData)
+  .then(groupData => {
+    res.status(200).json(groupData); 
   });
 };
