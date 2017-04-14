@@ -34,14 +34,14 @@ exports.getAllFriendData = (req, res, next) => {
       };
       return Users.findOne( { where: {id: friendData.friendId} } )
       .then((user) => {
-          let userData = user.get();
-          friendObj.first = userData.first;
-          friendObj.last = userData.last;
-          // console.log('userData in users.js: ', userData);
-        })
+        let userData = user.get();
+        friendObj.first = userData.first;
+        friendObj.last = userData.last;
+        // console.log('userData in users.js: ', userData);
+      })
       .then(() => {
-          return friendObj;
-        });
+        return friendObj;
+      });
     })
     .then( result => {
       res.status(200).send(result); 
@@ -102,10 +102,10 @@ exports.updatePrivacy = (req, res) => {
   
   Users.findOne({where: {id: req.body.userId}})
   .then((user) => {
-    return user.update(toUpdate)
+    return user.update(toUpdate);
   }).then((user) => {
     res.status(200).send();
   }).catch((err) => {
     res.status(500).json({err: err});
-  })
+  });
 };
