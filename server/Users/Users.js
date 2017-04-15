@@ -87,8 +87,7 @@ exports.updateFriendById = (req, res) => {
 };
 
 exports.updateCoordinates = (req, res) => {
-  console.log('This is the request user', req.query.id)
-  console.log('This is the body of the request', req.body)
+
 
   Users.findOne({
     where: {
@@ -101,11 +100,11 @@ exports.updateCoordinates = (req, res) => {
       long: req.body.lng
     })
     .then((user) => {
-      console.log('Updated succesfully', user)
       res.status(202).json({});   
     })
     .catch((error) => {
       console.log('Errored out from updating coordinates')
+      res.status(404).json({error: error});
     })
   })
 };
