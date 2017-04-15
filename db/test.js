@@ -124,11 +124,21 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
       friendId: 4
     }});
 }).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'label', userId: 4},
+  Contacts.findOrCreate({where: {privacy: 'GPS', userId: 4},
     defaults: {
       friendId: 1
     }});
-})
+}).then(() => {
+  Contacts.findOrCreate({where: {userId: 1, friendId: 3},
+    defaults: {
+      privacy: 'label'
+    }});
+}).then(() => {
+  Contacts.findOrCreate({where: {userId: 3, friendId: 1},
+    defaults: {
+      privacy: 'label'
+    }});
+});
 // .then(() => {
 //   Contacts.findOrCreate({where: {privacy: 'pending', userId: 2},
 //     defaults: {
