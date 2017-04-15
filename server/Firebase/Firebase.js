@@ -9,7 +9,7 @@ var serviceAccount = require("./firebase-key.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://fir-safer.firebaseio.com"
+  databaseURL: 'https://fir-safer.firebaseio.com'
 });
 
 exports.updateFCMToken = (req, res) => {
