@@ -10,8 +10,9 @@ const {
   updatePrivacy,
   updateCoordinates,
   getContactInformation,
-  updateFCMToken,
 } = require('./Users/Users.js');
+const { updateFCMToken } = require('./Firebase/Firebase.js');
+
 const { addGroup, getGroups, getGroupUsers } = require('./Groups/Groups.js');
 
 const authorization = require('./Authorization/Authorization.js');
