@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/blink672/safer-server#readme",
   "dependencies": {
+    "axios": "^0.16.1",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "dotenv": "^4.0.0",
