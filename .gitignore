@@ -31,5 +31,6 @@ npm-debug.log*
 *.env
 .DS_Store
 
-#Firebase Key
+#Firebase Keys
 server/Firebase/firebase-key.json
+server/Firebase/fcm-server-key.js
