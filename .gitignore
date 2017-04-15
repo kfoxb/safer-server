@@ -30,3 +30,6 @@ npm-debug.log*
 # dotenv environment variables file
 *.env
 .DS_Store
+
+#Firebase Key
+./server/Firebase/firebase-safer-firebase-adminsdk-5mpo3-73294f486d.json
