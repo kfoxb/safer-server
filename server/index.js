@@ -26,6 +26,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //this middleware is for server side authorization from Google
 //see https://developers.google.com/identity/sign-in/android/backend-auth
+app.route('/api/users/location')
+  .put(updateCoordinates);
+
 app.route('/api/labels')
   .get(getAllFences)
   .post(addLabel);

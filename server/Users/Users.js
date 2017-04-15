@@ -87,7 +87,27 @@ exports.updateFriendById = (req, res) => {
 };
 
 exports.updateCoordinates = (req, res) => {
-  res.status(200).json({});
+  console.log('This is the request user', req.query.id)
+  console.log('This is the body of the request', req.body)
+
+  Users.findOne({
+    where: {
+      phoneNumber: req.query.id
+    }
+  })
+  .then((user) => {
+    user.update({
+      lat: req.body.lat,
+      long: req.body.lng
+    })
+    .then((user) => {
+      console.log('Updated succesfully', user)
+      res.status(202).json({});   
+    })
+    .catch((error) => {
+      console.log('Errored out from updating coordinates')
+    })
+  })
 };
 
 exports.updatePrivacy = (req, res) => {
