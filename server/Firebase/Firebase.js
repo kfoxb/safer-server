@@ -16,9 +16,13 @@ exports.updateFCMToken = (req, res) => {
   //TODO: move the notification sending logic elsewhere
   //currently sending a notification upon loading the app
   var payload = {
-    notification: {
-      title: 'From the server',
-      text: 'Yooo to team blink672'
+    data: {
+      type: 'MEASURE_CHANGE',
+      'custom_notification': JSON.stringify({
+        body: 'Yooo to team blink672',
+        title: 'From the server',
+        sound: 'default'
+      })
     }
   };
 
