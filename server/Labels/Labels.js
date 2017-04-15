@@ -35,22 +35,18 @@ exports.addLabel = (req, res) => {
 };
 
 exports.getAllFences = (req, res) => {
-  console.log('Inside the get route and in the getAllFences model');
-  console.log('------- PARAMS ******', req.params);
   Users.findOne({
     where: {
       phoneNumber: req.param('id')
     }
   })
   .then((user) => {
-    console.log(user);
     Labels.findAll({
       where: {
         UserId: user.dataValues.id
       }
     })
       .then((fences) => {
-        console.log('These are the fences', fences);
         res.status(200).json(fences);
       })
       .catch((error) => {

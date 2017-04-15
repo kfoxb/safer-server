@@ -6,7 +6,6 @@ const phone = require('phone');
 
 exports.addFriend = (req, res) => {
   let contact = req.body.contact;
-
   Users.findOne({ where: {phoneNumber: phone(contact.phoneNumber)[0]} } )
   .then( user => {
     let userData = user.get();
@@ -25,7 +24,6 @@ exports.addFriend = (req, res) => {
 //http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
-  
   let friendData = Contacts.findAll({where: {userId: req.user.id} } )
   .then(contactInst => {
     return Promise.map(contactInst, (contact) => {
@@ -38,7 +36,6 @@ exports.getAllFriendData = (req, res, next) => {
       return friend.get();
     });
   });
-
   let privacyData = Contacts.findAll({where: {userId: req.user.id} } )
   .then(contactInst => {
     return Promise.map(contactInst, (contact) => {
@@ -52,7 +49,6 @@ exports.getAllFriendData = (req, res, next) => {
       return privacy ? privacy.get() : privacy;
     });
   });
-
   Promise.all([friendData, privacyData])
   .spread((friend, privacy) => {
     // console.log(friend);
@@ -67,49 +63,8 @@ exports.getAllFriendData = (req, res, next) => {
     });
   })
   .then(results => {
-    console.log(results);
     res.status(200).json(results);
   });
-
-  // .then(friends => {
-  //   console.log(friends);
-  //   Promise.map(friends, (friend) => {
-  //     Contact.find({where: {userId: friend.id, friendId: req.user.id} } )
-  //   });
-  // });
-
-
-
-
-
-
-
-
-
-
-
-  // Contacts.findAll( { where: {userId: req.user.id} } )
-  // .then((friends) => {
-  //   return Promise.map(friends, (friend) => {
-  //     let friendData = friend.get();
-  //     let friendObj = {
-  //       privacy: friendData.privacy
-  //     };
-  //     return Users.findOne( { where: {id: friendData.friendId} } )
-  //     .then((user) => {
-  //       let userData = user.get();
-  //       friendObj.first = userData.first;
-  //       friendObj.last = userData.last;
-  //       friendObj.phoneNumber = userData.phoneNumber;
-  //     })
-  //     .then(() => {
-  //       return friendObj;
-  //     });
-  //   })
-  //   .then( result => {
-  //     res.status(200).send(result); 
-  //   });
-  // });
 };
 
 exports.getFriendById = (req, res) => {
@@ -118,7 +73,6 @@ exports.getFriendById = (req, res) => {
 
 exports.getContactInformation = (req, res) => {
   let contactArray = req.body.friends;
-
   let notFriends = [];
   Promise.each(contactArray, (contact) => {
     let phoneNumber = phone(contact.phoneNumber);
@@ -181,7 +135,6 @@ exports.updatePrivacy = (req, res) => {
   } else if (req.body.incognito) {
     toUpdate = { incognito: req.body.incognito };
   }
-  
   Users.findOne({where: {id: req.body.userId}})
   .then((user) => {
     return user.update(toUpdate);
