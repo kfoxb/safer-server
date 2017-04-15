@@ -25,28 +25,91 @@ exports.addFriend = (req, res) => {
 //http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
-  Contacts.findAll( { where: {userId: req.user.id} } )
-  .then((friends) => {
-    Promise.map(friends, (friend) => {
-      let friendData = friend.get();
-      let friendObj = {
-        privacy: friendData.privacy
-      };
-      return Users.findOne( { where: {id: friendData.friendId} } )
-      .then((user) => {
-        let userData = user.get();
-        friendObj.first = userData.first;
-        friendObj.last = userData.last;
-        friendObj.phoneNumber = userData.phoneNumber;
-      })
-      .then(() => {
-        return friendObj;
-      });
-    })
-    .then( result => {
-      res.status(200).send(result); 
+  
+  let friendData = Contacts.findAll({where: {userId: req.user.id} } )
+  .then(contactInst => {
+    return Promise.map(contactInst, (contact) => {
+      let contactData = contact.get();
+      return Users.findOne({where: {id: contactData.friendId}});
+    });
+  })
+  .then(friendInst => {
+    return Promise.map(friendInst, (friend) => {
+      return friend.get();
     });
   });
+
+  let privacyData = Contacts.findAll({where: {userId: req.user.id} } )
+  .then(contactInst => {
+    return Promise.map(contactInst, (contact) => {
+      let contactData = contact.get();
+      return Contacts.findOne({where: {userId: contactData.friendId, friendId: req.user.id}});
+    });
+  })
+  .then(privacyInst => {
+    // console.log(JSON.stringify(privacyInst));
+    return Promise.map(privacyInst, (privacy) => {
+      return privacy ? privacy.get() : privacy;
+    });
+  });
+
+  Promise.all([friendData, privacyData])
+  .spread((friend, privacy) => {
+    // console.log(friend);
+    // console.log(privacy);
+    return Promise.map(friend, (data, index) => {
+      if (privacy[index] === null) { 
+        data.showSetting = 'pending'; 
+      } else {
+        data.showSetting = privacy[index].privacy;
+      }
+      return data;
+    });
+  })
+  .then(results => {
+    console.log(results);
+    res.status(200).json(results);
+  });
+
+  // .then(friends => {
+  //   console.log(friends);
+  //   Promise.map(friends, (friend) => {
+  //     Contact.find({where: {userId: friend.id, friendId: req.user.id} } )
+  //   });
+  // });
+
+
+
+
+
+
+
+
+
+
+
+  // Contacts.findAll( { where: {userId: req.user.id} } )
+  // .then((friends) => {
+  //   return Promise.map(friends, (friend) => {
+  //     let friendData = friend.get();
+  //     let friendObj = {
+  //       privacy: friendData.privacy
+  //     };
+  //     return Users.findOne( { where: {id: friendData.friendId} } )
+  //     .then((user) => {
+  //       let userData = user.get();
+  //       friendObj.first = userData.first;
+  //       friendObj.last = userData.last;
+  //       friendObj.phoneNumber = userData.phoneNumber;
+  //     })
+  //     .then(() => {
+  //       return friendObj;
+  //     });
+  //   })
+  //   .then( result => {
+  //     res.status(200).send(result); 
+  //   });
+  // });
 };
 
 exports.getFriendById = (req, res) => {

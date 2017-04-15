@@ -124,34 +124,55 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
       friendId: 4
     }});
 }).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'pending', userId: 2},
-    defaults: {
-      friendId: 3
-    }});
-}).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'label', userId: 2},
-    defaults: {
-      friendId: 1
-    }});
-}).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'pending', userId: 3},
-    defaults: {
-      friendId: 4
-    }});
-}).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'label', userId: 3},
-    defaults: {
-      friendId: 2
-    }});
-}).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'pending', userId: 4},
-    defaults: {
-      friendId: 1
-    }});
-}).then(() => {
   Contacts.findOrCreate({where: {privacy: 'label', userId: 4},
     defaults: {
-      friendId: 3
+      friendId: 1
     }});
-});
+})
+// .then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'pending', userId: 2},
+//     defaults: {
+//       friendId: 3
+//     }});
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'label', userId: 2},
+//     defaults: {
+//       friendId: 1
+//     }});
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'label', userId: 1},
+//     defaults: {
+//       friendId: 2
+//     }});
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'pending', userId: 3},
+//     defaults: {
+//       friendId: 4
+//     }});
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'label', userId: 3},
+//     defaults: {
+//       friendId: 2
+//     }});
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'label', userId: 2},
+//     defaults: {
+//       friendId: 3
+//     }});  
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'pending', userId: 4},
+//     defaults: {
+//       friendId: 1
+//     }});
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'label', userId: 4},
+//     defaults: {
+//       friendId: 3
+//     }});
+// }).then(() => {
+//   Contacts.findOrCreate({where: {privacy: 'label', userId: 3},
+//     defaults: {
+//       friendId: 4
+//     }});
+// });
 
