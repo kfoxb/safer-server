@@ -32,4 +32,4 @@ npm-debug.log*
 .DS_Store
 
 #Firebase Key
-./server/Firebase/firebase-safer-firebase-adminsdk-5mpo3-73294f486d.json
+./server/Firebase/firebase-key.json
