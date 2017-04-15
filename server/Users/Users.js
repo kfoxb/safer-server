@@ -103,10 +103,10 @@ exports.updateCoordinates = (req, res) => {
       res.status(202).json({});   
     })
     .catch((error) => {
-      console.log('Errored out from updating coordinates')
+      console.log('Errored out from updating coordinates');
       res.status(404).json({error: error});
-    })
-  })
+    });
+  });
 };
 
 exports.updatePrivacy = (req, res) => {

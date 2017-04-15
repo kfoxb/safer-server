@@ -3,9 +3,9 @@ const Users = require('../../db/Users/Users.js');
 const serverKey = require('../Firebase/fcm-server-key.js').serverKey;
 const axios = require('axios');
 
-var admin = require("firebase-admin");
+var admin = require('firebase-admin');
 
-var serviceAccount = require("./firebase-key.json");
+var serviceAccount = require('./firebase-key.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -20,7 +20,7 @@ exports.updateFCMToken = (req, res) => {
       title: 'From the server',
       text: 'Yooo to team blink672'
     }
-  }
+  };
 
   admin.messaging().sendToDevice(req.body.FCMToken, payload)
   .then(response => {
