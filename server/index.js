@@ -10,6 +10,7 @@ const {
   updatePrivacy,
   updateCoordinates,
   getContactInformation,
+  updateFCMToken,
 } = require('./Users/Users.js');
 const { addGroup, getGroups, getGroupUsers } = require('./Groups/Groups.js');
 
@@ -54,6 +55,8 @@ app.route('/api/friends/:id')
 
 app.post('/api/contacts', getContactInformation);
 /******************************************/
+
+app.post('/api/fcmToken', updateFCMToken);
 
 app.put('/api/privacySettings', updatePrivacy);
 
