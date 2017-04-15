@@ -63,7 +63,28 @@ exports.getGroups = (req, res) => {
 };
 
 exports.getGroupUsers = (req, res) => {
-  console.log('in get group users');
+  console.log(req.query.name);
 
-  res.status(200).json('FROM SERVER GROUP USER LKSJDFOPUWHEFK:SJHF');
+  Groups.find({where: {userId: req.user.id, name: req.query.name} })
+  .then(groupInst => {
+    let groupData = groupInst.get();
+    return GroupMembers.findAll({where: {groupId: groupData.id} });
+  })
+  .then(memberInst => {
+    return Promise.map(memberInst, (member) => {
+      let memberData = member.get();
+      return Users.find({where: {id: memberData.userId} });
+    });
+  })
+  .then(userInst => {
+    return Promise.map(userInst, (user) => {
+      return user.get();
+    });
+  })
+  .then(userData => {
+    res.status(200).json(userData);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 };
