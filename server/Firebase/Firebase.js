@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const Users = require('../../db/Users/Users.js');
 const serverKey = require('../Firebase/fcm-server-key.js').serverKey;
-const axios = require('axios');
+// const axios = require('axios');
 
 var admin = require('firebase-admin');
 
