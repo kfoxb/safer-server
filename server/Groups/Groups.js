@@ -30,7 +30,7 @@ exports.addGroup = (req, res) => {
     });
   })
   .then( results => {
-    console.log(results);
+    // console.log(results);
     res.status(201).json('SUCCESS!!! Group Add');
   })
   .catch( err => {
