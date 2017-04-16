@@ -26,13 +26,13 @@ exports.updateFCMToken = (req, res) => {
     }
   };
 
-  admin.messaging().sendToDevice(req.body.FCMToken, payload)
-  .then(response => {
-    console.log(response);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  // admin.messaging().sendToDevice(req.body.FCMToken, payload)
+  // .then(response => {
+  //   console.log(response);
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
 
   //TODO: set a userId on the req.body to query the db with
   //currently hardcoding to 1
