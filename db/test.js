@@ -138,7 +138,16 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
     defaults: {
       privacy: 'label'
     }});
+}).then(() => {
+  Groups.findOrCreate({where: {userId: 1, name: 'FAVORITES', privacy: 'label'}});
+}).then(() => {
+  GroupMembers.findOrCreate({where: {groupId: 1, userId: 2}});
+}).then(() => {
+  GroupMembers.findOrCreate({where: {groupId: 1, userId: 3}});
+}).then(() => {
+  GroupMembers.findOrCreate({where: {groupId: 1, userId: 4}});
 });
+
 // .then(() => {
 //   Contacts.findOrCreate({where: {privacy: 'pending', userId: 2},
 //     defaults: {
