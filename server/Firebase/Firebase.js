@@ -36,7 +36,7 @@ exports.updateFCMToken = (req, res) => {
 
   //TODO: set a userId on the req.body to query the db with
   //currently hardcoding to 1
-  Users.findOne({where: {id: req.body.userId}})
+  Users.findOne({where: {id: req.user.id}})
   .then(user => {
     return user.update({FCMToken: req.body.FCMToken});
   }).then(user => {
