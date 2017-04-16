@@ -4,14 +4,16 @@ const Labels = require('../../db/Labels/Labels.js');
 const phone = require('phone');
 
 exports.addLabel = (req, res) => {
+  console.log
   Users.findOne({
     where: {
       phoneNumber: req.body.user
     }
   })
   .then((user) => {
+    console.log('user when creating a Label/fence', user);
     Labels.create({
-      UserId: user.dataValues.id,
+      userId: user.dataValues.id,
       label: req.body.label,
       latTlc: req.body.polygon[0].lat,
       lngTlc: req.body.polygon[0].lng,
@@ -19,10 +21,10 @@ exports.addLabel = (req, res) => {
       lngTrc: req.body.polygon[1].lng,
       latBrc: req.body.polygon[2].lat,
       lngBrc: req.body.polygon[2].lng,
-      latLbc: req.body.polygon[3].lat,
-      lngLbc: req.body.polygon[3].lng,
+      latBlc: req.body.polygon[3].lat,
+      lngBlc: req.body.polygon[3].lng,
       latInit: req.body.polygon[4].lat,
-      lngInit: req.body.polygon[4].lat
+      lngInit: req.body.polygon[4].lng
     })
     .then((fence) => {
       res.status(201).json(`${req.body.label} created succesfully!`);
@@ -50,8 +52,7 @@ exports.getAllFences = (req, res) => {
         res.status(200).json(fences);
       })
       .catch((error) => {
-        console.log('errored out from retrieving fences', error);
-        res.status(404).json('ERROR!');
+        res.status(404).json({error: error});
       });
   });
 };

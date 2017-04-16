@@ -11,6 +11,7 @@ let Users = db.define('Users', {
   incognito: {type: Sequelize.BOOLEAN, defaultValue: false},
   defaultPrivacy: {type: Sequelize.STRING, allowNull: false, defaultValue: 'label'},
   FCMToken: {type: Sequelize.STRING, defaultValue: ''}
+  currentLabel: Sequelize.STRING,
 });
 
 Users.sync();
