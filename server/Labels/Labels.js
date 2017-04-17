@@ -4,7 +4,6 @@ const Labels = require('../../db/Labels/Labels.js');
 const phone = require('phone');
 
 exports.addLabel = (req, res) => {
-  console.log
   Users.findOne({
     where: {
       phoneNumber: req.body.user
