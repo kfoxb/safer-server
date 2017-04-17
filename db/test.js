@@ -85,12 +85,17 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
       friendId: 4
     }});
 }).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'pending', userId: 2},
+  Contacts.findOrCreate({where: {privacy: 'GPS', userId: 1}, 
     defaults: {
       friendId: 3
     }});
 }).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'label', userId: 2},
+  Contacts.findOrCreate({where: {privacy: 'GPS', userId: 3},
+    defaults: {
+      friendId: 1
+    }});
+}).then(() => {
+  Contacts.findOrCreate({where: {privacy: 'label', userId: 4},
     defaults: {
       friendId: 1
     }});
@@ -114,5 +119,13 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
     defaults: {
       friendId: 3
     }});
+}).then(() => {
+  Groups.findOrCreate({where: {userId: 1, name: 'FAVORITES', privacy: 'GPS'}});
+}).then(() => {
+  GroupMembers.findOrCreate({where: {groupId: 1, userId: 2}});
+}).then(() => {
+  GroupMembers.findOrCreate({where: {groupId: 1, userId: 3}});
+}).then(() => {
+  GroupMembers.findOrCreate({where: {groupId: 1, userId: 4}});
 });
 
