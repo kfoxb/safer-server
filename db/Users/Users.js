@@ -10,7 +10,7 @@ let Users = db.define('Users', {
   long: Sequelize.STRING,
   incognito: {type: Sequelize.BOOLEAN, defaultValue: false},
   defaultPrivacy: {type: Sequelize.STRING, allowNull: false, defaultValue: 'label'},
-  FCMToken: {type: Sequelize.STRING, defaultValue: ''}
+  FCMToken: {type: Sequelize.STRING, defaultValue: ''},
   currentLabel: Sequelize.STRING,
 });
 
