@@ -20,7 +20,7 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
 }).then(()=> {
   return Users.findOrCreate({where: {phoneNumber: '1234567'},
     defaults: {
-      first: 'Dariooooo',
+      first: 'Dario',
       last: 'Arteaga',
       email: 'dario@email.com',
       lat: '37.760041',
@@ -37,6 +37,24 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
     }});
 }).then(() => {
   return Users.findOrCreate({where: {phoneNumber: '878765875'},
+    defaults: {
+      first: 'Raffy',
+      last: 'Feliciano',
+      email: 'face@email.com',
+      lat: '37.720844',
+      long: '-122.462258'
+    }});
+}).then(() => {
+  return Users.findOrCreate({where: {phoneNumber: '+19096412326'},
+    defaults: {
+      first: 'Raffy',
+      last: 'Feliciano',
+      email: 'raffasdfy@email.com',
+      lat: '37.720844',
+      long: '-122.462258'
+    }});
+}).then(() => {
+  return Users.findOrCreate({where: {phoneNumber: '+15104999601'},
     defaults: {
       first: 'Raffy',
       last: 'Feliciano',
@@ -58,7 +76,7 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
     long: '-122.408940',
     label: 'Work'
   });
-  Users.findOrCreate({where: {phoneNumber: '+18056377243'},
+  Users.findOrCreate({where: {phoneNumber: '+14086428264'},
     defaults: {
       first: 'Friend',
       last: 'Dummy1',

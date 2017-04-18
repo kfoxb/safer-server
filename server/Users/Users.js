@@ -51,8 +51,6 @@ exports.getAllFriendData = (req, res, next) => {
   });
   Promise.all([friendData, privacyData])
   .spread((friend, privacy) => {
-    // console.log(friend);
-    // console.log(privacy);
     return Promise.map(friend, (data, index) => {
       if (privacy[index] === null) { 
         data.showSetting = 'pending'; 
