@@ -10,8 +10,12 @@ const {
   updatePrivacy,
   updateCoordinates,
   getContactInformation,
+  findUserWithPhoneNumber,
 } = require('./Users/Users.js');
+
 const { updateFCMToken } = require('./Firebase/Firebase.js');
+const { addSubscriptionToTable } = require('./Notifications/Notifications.js');
+
 const { addGroup, getGroups, getGroupUsers } = require('./Groups/Groups.js');
 const authorization = require('./Authorization/Authorization.js');
 const {addLabel, getAllFences} = require('./Labels/Labels.js');
@@ -53,6 +57,8 @@ app.post('/api/fcmToken', updateFCMToken);
 app.put('/api/privacySettings', updatePrivacy);
 
 app.put('/api/coordinates', updateCoordinates);
+
+app.get('/api/test', findUserWithPhoneNumber, addSubscriptionToTable);
 
 let port = process.env.PORT || 1337;
 
