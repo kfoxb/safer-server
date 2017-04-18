@@ -3,7 +3,7 @@ const db = require('../config.js');
 
 let Notifications = db.define('Notifications', {
   pubId: Sequelize.INTEGER,
-  subId: Sequelize.INTEGER,
+  subToken: Sequelize.STRING,
 });
 
 Notifications.sync();
