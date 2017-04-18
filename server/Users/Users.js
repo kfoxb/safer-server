@@ -150,3 +150,17 @@ exports.updatePrivacy = (req, res) => {
     res.status(500).json({err: err});
   });
 };
+
+exports.findUserWithPhoneNumber = (req, res, next) => {
+  Users.findOne({ 
+    where: { phoneNumber: '1234567' },
+  })
+  .then(user => {
+    req.friend = user.get();
+    next();
+  })
+  .catch(err => {
+    res.error = err;
+    next();
+  });
+};
