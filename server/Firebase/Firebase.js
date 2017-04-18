@@ -13,27 +13,6 @@ admin.initializeApp({
 });
 
 exports.updateFCMToken = (req, res) => {
-  //TODO: move the notification sending logic elsewhere
-  //currently sending a notification upon loading the app
-  var payload = {
-    data: {
-      type: 'MEASURE_CHANGE',
-      'custom_notification': JSON.stringify({
-        body: 'Yooo to team blink672',
-        title: 'From the server',
-        sound: 'default'
-      })
-    }
-  };
-
-  // admin.messaging().sendToDevice(req.user.FCMToken, payload)
-  // .then(response => {
-  //   console.log(response);
-  // })
-  // .catch(err => {
-  //   console.log(err);
-  // });
-
   //TODO: set a userId on the req.body to query the db with
   //currently hardcoding to 1
   Users.findOne({where: {id: req.user.id}})
@@ -45,3 +24,36 @@ exports.updateFCMToken = (req, res) => {
     res.status(500).json({err: err});
   });
 };
+
+exports.sendNotifications = (pubId, tokenArray) => {
+  Users.findOne({
+    where: {id: pubId},
+    attributes: ['first', 'last']
+  })
+  .then(user => {
+    console.log('in sendNotifications: ', user.get());
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  // var payload = {
+  //   data: {
+  //     type: 'MEASURE_CHANGE',
+  //     'custom_notification': JSON.stringify({
+  //       body: 'Yooo to team blink672',
+  //       title: 'From the server',
+  //       sound: 'default'
+  //     })
+  //   }
+  // };
+
+  // admin.messaging().sendToDevice(req.user.FCMToken, payload)
+  // .then(response => {
+  //   console.log(response);
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
+
+}
