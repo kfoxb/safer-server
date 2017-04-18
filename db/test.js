@@ -33,7 +33,8 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
       last: 'Bradford',
       email: 'kyle@email.com',
       lat: '37.741049',
-      long: '-122.444415'
+      long: '-122.444415',
+      currentLabel: 'School',
     }});
 }).then(() => {
   return Users.findOrCreate({where: {phoneNumber: '878765875'},
@@ -42,7 +43,8 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
       last: 'Feliciano',
       email: 'face@email.com',
       lat: '37.720844',
-      long: '-122.462258'
+      long: '-122.462258',
+      currentLabel: 'LKJSDFOIWEFOSEF',
     }});
 }).then(() => {
   return Users.findOrCreate({where: {phoneNumber: '+19096412326'},
@@ -139,8 +141,6 @@ Users.findOrCreate({where: {phoneNumber: '+14153083372'},
     }});
 }).then(() => {
   Groups.findOrCreate({where: {userId: 1, name: 'FAVORITES', privacy: 'GPS'}});
-}).then(() => {
-  GroupMembers.findOrCreate({where: {groupId: 1, userId: 2}});
 }).then(() => {
   GroupMembers.findOrCreate({where: {groupId: 1, userId: 3}});
 }).then(() => {
