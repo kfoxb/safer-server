@@ -24,6 +24,8 @@ exports.addFriend = (req, res) => {
 //http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
+
+
   let friendData = Contacts.findAll({where: {userId: req.user.id} } )
   .then(contactInst => {
     return Promise.map(contactInst, (contact) => {
@@ -36,6 +38,8 @@ exports.getAllFriendData = (req, res, next) => {
       return friend.get();
     });
   });
+
+
   let privacyData = Contacts.findAll({where: {userId: req.user.id} } )
   .then(contactInst => {
     return Promise.map(contactInst, (contact) => {
@@ -49,6 +53,8 @@ exports.getAllFriendData = (req, res, next) => {
       return privacy ? privacy.get() : privacy;
     });
   });
+
+
   Promise.all([friendData, privacyData])
   .spread((friend, privacy) => {
     return Promise.map(friend, (data, index) => {
@@ -63,6 +69,8 @@ exports.getAllFriendData = (req, res, next) => {
   .then(results => {
     res.status(200).json(results);
   });
+
+  
 };
 
 exports.getFriendById = (req, res) => {
