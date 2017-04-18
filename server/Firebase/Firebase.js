@@ -26,7 +26,7 @@ exports.updateFCMToken = (req, res) => {
     }
   };
 
-  // admin.messaging().sendToDevice(req.body.FCMToken, payload)
+  // admin.messaging().sendToDevice(req.user.FCMToken, payload)
   // .then(response => {
   //   console.log(response);
   // })
