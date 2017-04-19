@@ -24,7 +24,7 @@ exports.addFriend = (req, res) => {
     return newFriend;
   })
   .then((newFriend) => {
-    console.log(newFriend);
+    // TODO: send pending/friend confirmed based on newFriend's privacy setting
     res.status(201).json('Success! Friend request pending');
   })
   .catch((err) => {
