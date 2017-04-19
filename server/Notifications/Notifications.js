@@ -9,7 +9,7 @@ exports.addSubscriptionToTable = (req, res) => {
     res.status(200).json({status: 'Subscription created.'});
   })
   .then(() => {
-    exports.checkSubscriptions(1, 'Elsewhere', 'Home');
+    exports.checkSubscriptions(1, 'Elsewhere', 'Home'); //TODO: use this elsewhere after testing is finished
   })
   .catch((err) => {
     res.status(500);
@@ -25,9 +25,14 @@ exports.addSubscriptionToTable = (req, res) => {
 exports.checkSubscriptions = (userId, oldLabel, newLabel) => {
   if (oldLabel === 'Home' || newLabel !== 'Home') { return; }
   if (newLabel === 'Home') {
-    Notifications.find({where: {pubId: userId}})
+    Notifications.findAll({where: {pubId: userId}})
     .then((subs) => {
-      console.log(subs);
+      var subsArray = [];
+      subs.forEach( s => {
+        subsArray.push(s.get().subToken);
+      });
+      sendNotifications(userId, subsArray);
+      return Notifications.destroy({where: {pubId: userId}});
     })
     .catch((err) => {
       console.log(err);
