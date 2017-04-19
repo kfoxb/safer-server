@@ -111,8 +111,6 @@ exports.updateFriendById = (req, res) => {
 };
 
 exports.updateCoordinates = (req, res) => {
-
-
   Users.findOne({
     where: {
       phoneNumber: req.query.id
