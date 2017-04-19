@@ -7,15 +7,24 @@ const phone = require('phone');
 exports.addFriend = (req, res) => {
   let contact = req.body.contact;
   Users.findOne({ where: {phoneNumber: phone(contact.phoneNumber)[0]} } )
-  .then( user => {
+  .then((user) => {
     let userData = user.get();
-    return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'pending'})
-    .then((newFriendship) => {
-      let newFriend = newFriendship.get();
-      return newFriend;
-    });
+    return Contacts.find({ where: {userId: userData.id, friendId: req.user.id} });
   })
-  .then((result) => {
+  .then((friendship) => {
+    if (friendship !== null) {
+      friendship.update({privacy: 'label'})
+      return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'label'});
+    } else {
+      return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'pending'});
+    }
+  })
+  .then((newFriendship) => {
+    let newFriend = newFriendship.get();
+    return newFriend;
+  })
+  .then((newFriend) => {
+    console.log(newFriend);
     res.status(201).json('Success! Friend request pending');
   })
   .catch((err) => {
@@ -172,9 +181,11 @@ exports.updatePrivacy = (req, res) => {
   Users.findOne({where: {id: req.body.userId}})
   .then((user) => {
     return user.update(toUpdate);
-  }).then((user) => {
+  })
+  .then((user) => {
     res.status(200).send();
-  }).catch((err) => {
+  })
+  .catch((err) => {
     console.error('There was an error updating the user privacy info: ', err);
     res.status(500).json({err: err});
   });
