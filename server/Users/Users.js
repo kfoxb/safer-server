@@ -17,6 +17,9 @@ exports.addFriend = (req, res) => {
   })
   .then((result) => {
     res.status(201).json('Success! Friend request pending');
+  })
+  .catch((err) => {
+    console.error('There was an error adding a friend: ', err);
   });
 };
 
@@ -43,6 +46,9 @@ exports.getAllFriendData = (req, res, next) => {
     return Promise.map(friendInst, (friend) => {
       return friend.get();
     });
+  })
+  .catch((err) => {
+    console.error('There was an error getting all friend data: ', err);
   });
   let privacyData = Contacts.findAll(query)
   .then(contactInst => {
@@ -55,6 +61,9 @@ exports.getAllFriendData = (req, res, next) => {
     return Promise.map(privacyInst, (privacy) => {
       return privacy ? privacy.get() : privacy;
     });
+  })
+  .catch((err) => {
+    console.error('There was an error getting privacy data: ', err);
   });
   Promise.all([friendData, privacyData])
   .spread((friend, privacy) => {
@@ -69,6 +78,10 @@ exports.getAllFriendData = (req, res, next) => {
   })
   .then(results => {
     res.status(200).json(results);
+  })
+  .catch((err) => {
+    console.error('There was an error packaging the friend and privacy data: ', err);
+    res.status(500).json(err);
   });
 };
 
