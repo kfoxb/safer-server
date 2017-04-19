@@ -20,6 +20,7 @@ exports.addFriend = (req, res) => {
   });
 };
 
+
 // TODO: Second half
 //http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
@@ -144,6 +145,17 @@ exports.updatePrivacy = (req, res) => {
   }).then((user) => {
     res.status(200).send();
   }).catch((err) => {
+    res.status(500).json({err: err});
+  });
+};
+
+exports.updateUser = (req, res) => {
+  Users.update(req.body, {where: {id: req.user.id}})
+  .then(() => {
+    res.status(200).send();
+  })
+  .catch((err) => {
+    console.error('There was an error updating the user: ', err);
     res.status(500).json({err: err});
   });
 };
