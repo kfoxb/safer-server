@@ -19,7 +19,7 @@ exports.addSubscriptionToTable = (req, res) => {
       res.error = err;
       res.json();
     }
-  })
+  });
 };
 
 exports.checkSubscriptions = (userId, oldLabel, newLabel) => {
@@ -36,6 +36,6 @@ exports.checkSubscriptions = (userId, oldLabel, newLabel) => {
     })
     .catch((err) => {
       console.log(err);
-    })
+    });
   }
-}
+};

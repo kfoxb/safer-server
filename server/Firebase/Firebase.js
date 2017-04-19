@@ -72,4 +72,4 @@ exports.sendNotifications = (pubId, tokenArray) => {
   //   console.log(err);
   // });
 
-}
+};
