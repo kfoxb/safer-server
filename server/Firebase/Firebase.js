@@ -31,7 +31,23 @@ exports.sendNotifications = (pubId, tokenArray) => {
     attributes: ['first', 'last']
   })
   .then(user => {
-    console.log('in sendNotifications: ', user.get());
+    user = user.get();
+    return name = user.first + ' ' + user.last;
+  })
+  .then((name) => {
+    var payload = {
+      data: {
+        type: 'MEASURE_CHANGE',
+        'custom_notification': JSON.stringify({
+          body: `${name} has arrived home safely.`,
+          sound: 'default'
+        })
+      }
+    };
+    return Promise.each(tokenArray, (token, index) => {
+      console.log('admin called');
+      return admin.messaging().sendToDevice(token, payload);
+    });
   })
   .catch(err => {
     console.log(err);
