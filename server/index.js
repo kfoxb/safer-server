@@ -28,7 +28,7 @@ app.use(authorization);
 app.route('/api/users/location')
   .put(updateCoordinates);
 
-app.route('/api/user/')
+app.route('/api/user')
   .put(updateUser);
 
 app.route('/api/labels')
