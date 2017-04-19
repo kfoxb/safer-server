@@ -72,16 +72,19 @@ exports.getNonGroupUsers = (req, res) => {
     });
   })
   .then(memberData => {
+    // let memeberId = memberData.map(user => {
+
+    // });
     return Contacts.findAll({
       where: {
         userId: req.user.id, 
-        $and: [ {friendId: {$ne: memberData}} ]
+        friendId: {$and: [{$ne: 3}]}
       }
     });
   })
   .then(contactInst => {
     return Promise.each(contactInst, (contact) => {
-      console.log(contact.get());
+      console.log('>>>>>>>>>>', contact.get());
     });
   });
 };
