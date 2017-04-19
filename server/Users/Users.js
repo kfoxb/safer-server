@@ -36,7 +36,6 @@ exports.addFriend = (req, res) => {
 //http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
-<<<<<<< HEAD
   let query = {
     where: {
       userId: req.user.id
@@ -46,12 +45,7 @@ exports.getAllFriendData = (req, res, next) => {
     query['where']['privacy'] = {$ne: 'pending'};
   }
   let friendData = Contacts.findAll(query)
-  .then(contactInst => {
-=======
-
-  let friendData = Contacts.findAll({where: {userId: req.user.id} } )
   .then((contactInst) => {
->>>>>>> Standardize syntax and add more error handling
     return Promise.map(contactInst, (contact) => {
       let contactData = contact.get();
       return Users.findOne({where: {id: contactData.friendId}});
@@ -65,26 +59,15 @@ exports.getAllFriendData = (req, res, next) => {
   .catch((err) => {
     console.error('There was an error getting all friend data: ', err);
   });
-<<<<<<< HEAD
   let privacyData = Contacts.findAll(query)
-  .then(contactInst => {
-=======
-
-
-  let privacyData = Contacts.findAll({where: {userId: req.user.id} } )
   .then((contactInst) => {
->>>>>>> Standardize syntax and add more error handling
     return Promise.map(contactInst, (contact) => {
       let contactData = contact.get();
       return Contacts.findOne({where: {userId: contactData.friendId, friendId: req.user.id}});
     });
   })
-<<<<<<< HEAD
-  .then(privacyInst => {
-=======
   .then((privacyInst) => {
     // console.log(JSON.stringify(privacyInst));
->>>>>>> Standardize syntax and add more error handling
     return Promise.map(privacyInst, (privacy) => {
       return privacy ? privacy.get() : privacy;
     });
