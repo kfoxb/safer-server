@@ -52,8 +52,8 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
 }).then(() => {
   return Users.findOrCreate({where: {phoneNumber: '+19096412326'},
     defaults: {
-      first: 'Raffy',
-      last: 'Feliciano',
+      first: 'Test',
+      last: 'friend',
       email: 'raffasdfy@email.com',
       lat: '37.720844',
       long: '-122.462258'
@@ -61,8 +61,8 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
 }).then(() => {
   return Users.findOrCreate({where: {phoneNumber: '+15104999601'},
     defaults: {
-      first: 'Raffy',
-      last: 'Feliciano',
+      first: 'Test',
+      last: 'friend',
       email: 'raffy@email.com',
       lat: '37.720844',
       long: '-122.462258'
@@ -98,7 +98,7 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
       long: '-122.462258'
     }});
 }).then(() => {
-  Contacts.findOrCreate({where: {privacy: 'pending', userId: 1},
+  Contacts.findOrCreate({where: {privacy: 'GPS', userId: 1},
     defaults: {
       friendId: 2
     }});
@@ -141,6 +141,11 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
   Contacts.findOrCreate({where: {privacy: 'label', userId: 4},
     defaults: {
       friendId: 3
+    }});
+}).then(() => {
+  Contacts.findOrCreate({where: {privacy: 'label', userId: 2},
+    defaults: {
+      friendId: 1
     }});
 }).then(() => {
   Groups.findOrCreate({where: {userId: 1, name: 'FAVORITES', privacy: 'GPS'}});

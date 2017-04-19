@@ -60,9 +60,35 @@ exports.getGroups = (req, res) => {
   });
 };
 
+exports.getNonGroupUsers = (req, res) => {
+  Groups.findOne({where: {userId: req.user.id, name: req.query.name} })
+  .then(groupInst => {
+    let groupData = groupInst.get();
+    return GroupMembers.findAll({where: {groupId: groupData.id} });
+  })
+  .then(memberInst => {
+    return Promise.map(memberInst, (member) => {
+      return member.get('id');
+    });
+  })
+  .then(memberData => {
+    return Contacts.findAll({
+      where: {
+        userId: req.user.id, 
+        $and: [ {friendId: {$ne: memberData}} ]
+      }
+    });
+  })
+  .then(contactInst => {
+    return Promise.each(contactInst, (contact) => {
+      console.log(contact.get());
+    });
+  });
+};
+
 exports.getGroupUsers = (req, res) => {
   res.locals.groupUserData = [];
-  let groupUserData = Groups.find({where: {userId: req.user.id, name: req.query.name} })
+  Groups.find({where: {userId: req.user.id, name: req.query.name} })
   .then(groupInst => {
     let groupData = groupInst.get();
     return GroupMembers.findAll({where: {groupId: groupData.id} });
