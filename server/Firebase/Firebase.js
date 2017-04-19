@@ -1,10 +1,8 @@
 const Promise = require('bluebird');
 const Users = require('../../db/Users/Users.js');
 const serverKey = require('../Firebase/fcm-server-key.js').serverKey;
-// const axios = require('axios');
 
 var admin = require('firebase-admin');
-
 var serviceAccount = require('./firebase-key.json');
 
 admin.initializeApp({
@@ -52,6 +50,20 @@ exports.sendNotifications = (pubId, tokenArray) => {
   .catch(err => {
     console.log(err);
   });
+
+exports.sendFriendRequest = (userName, friendToken) => {
+  var payload = {
+    data: {
+      type: 'MEASURE_CHANGE',
+      'custom_notification': JSON.stringify({
+        title: 'Friend Request',
+        body: `${userName} has sent a friend request.`,
+        sound: 'default',
+      })
+    }
+  };
+  admin.messaging().sendToDevice(friendToken, payload);
+}
 
   // var payload = {
   //   data: {
