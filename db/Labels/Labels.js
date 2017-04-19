@@ -5,16 +5,9 @@ const User = require('../Users/Users.js');
 let Labels = db.define('Labels', {
   userId: Sequelize.INTEGER,
   label: Sequelize.STRING,
-  latTlc: Sequelize.DOUBLE,
-  lngTlc: Sequelize.DOUBLE,
-  latTrc: Sequelize.DOUBLE,
-  lngTrc: Sequelize.DOUBLE,
-  latBrc: Sequelize.DOUBLE,
-  lngBrc: Sequelize.DOUBLE,
-  latBlc: Sequelize.DOUBLE,
-  lngBlc: Sequelize.DOUBLE,
-  latInit: Sequelize.DOUBLE,
-  lngInit: Sequelize.DOUBLE
+  address: Sequelize.STRING,
+  lat: Sequelize.DOUBLE,
+  lng: Sequelize.DOUBLE
 });
 
 Labels.sync();

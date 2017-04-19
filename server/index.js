@@ -64,11 +64,22 @@ api.put('/privacySettings', updatePrivacy);
 
 api.put('/coordinates', updateCoordinates);
 
+<<<<<<< HEAD
 api.get('/test', findUserWithPhoneNumber, addSubscriptionToTable);
+=======
+<<<<<<< HEAD
+app.put('/api/coordinates', updateCoordinates);
+>>>>>>> Storing user's label and last known location to their table
 
 app.use('/api', api);
 
+<<<<<<< HEAD
 const port = process.env.PORT || 1337;
+=======
+=======
+>>>>>>> Storing user's label and last known location to their table
+let port = process.env.PORT || 1337;
+>>>>>>> Storing user's label and last known location to their table
 
 app.listen(port);
 

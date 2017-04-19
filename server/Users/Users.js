@@ -133,13 +133,19 @@ exports.updateFriendById = (req, res) => {
 };
 
 exports.updateCoordinates = (req, res) => {
+<<<<<<< HEAD
+=======
+  console.log('req.body is', req.body)
+>>>>>>> Storing user's label and last known location to their table
   Users.findOne({
     where: {
-      phoneNumber: req.query.id
+      phoneNumber: req.body.user
     }
   })
   .then((user) => {
+    console.log('body of request', req.body)
     user.update({
+      currentLabel: req.body.label,
       lat: req.body.lat,
       long: req.body.lng
     })
