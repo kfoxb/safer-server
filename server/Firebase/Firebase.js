@@ -50,6 +50,7 @@ exports.sendNotifications = (pubId, tokenArray) => {
   .catch(err => {
     console.log(err);
   });
+};
 
 exports.sendFriendRequest = (userName, friendToken) => {
   var payload = {
@@ -63,7 +64,7 @@ exports.sendFriendRequest = (userName, friendToken) => {
     }
   };
   admin.messaging().sendToDevice(friendToken, payload);
-}
+};
 
   // var payload = {
   //   data: {
@@ -83,5 +84,3 @@ exports.sendFriendRequest = (userName, friendToken) => {
   // .catch(err => {
   //   console.log(err);
   // });
-
-};

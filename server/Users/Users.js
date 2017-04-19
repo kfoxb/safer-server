@@ -13,7 +13,7 @@ exports.addFriend = (req, res) => {
   })
   .then((friendship) => {
     if (friendship !== null) {
-      friendship.update({privacy: 'label'})
+      friendship.update({privacy: 'label'});
       return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'label'});
     } else {
       return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'pending'});
