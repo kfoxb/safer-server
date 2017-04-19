@@ -24,9 +24,15 @@ exports.addFriend = (req, res) => {
 //http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
-
-
-  let friendData = Contacts.findAll({where: {userId: req.user.id} } )
+  let query = {
+    where: {
+      userId: req.user.id
+    }
+  };
+  if (req.query.groups === 'true') {
+    query['where']['privacy'] = {$ne: 'pending'};
+  }
+  let friendData = Contacts.findAll(query)
   .then(contactInst => {
     return Promise.map(contactInst, (contact) => {
       let contactData = contact.get();
@@ -38,9 +44,7 @@ exports.getAllFriendData = (req, res, next) => {
       return friend.get();
     });
   });
-
-
-  let privacyData = Contacts.findAll({where: {userId: req.user.id} } )
+  let privacyData = Contacts.findAll(query)
   .then(contactInst => {
     return Promise.map(contactInst, (contact) => {
       let contactData = contact.get();
@@ -53,10 +57,9 @@ exports.getAllFriendData = (req, res, next) => {
       return privacy ? privacy.get() : privacy;
     });
   });
-
-
   Promise.all([friendData, privacyData])
   .spread((friend, privacy) => {
+    console.log(friend);
     return Promise.map(friend, (data, index) => {
       if (privacy[index] === null) { 
         data.showSetting = 'pending'; 
@@ -69,8 +72,6 @@ exports.getAllFriendData = (req, res, next) => {
   .then(results => {
     res.status(200).json(results);
   });
-
-  
 };
 
 exports.getFriendById = (req, res) => {

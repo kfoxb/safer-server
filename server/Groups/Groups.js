@@ -57,8 +57,6 @@ exports.getGroups = (req, res) => {
 };
 
 exports.getGroupUsers = (req, res) => {
-
-
   res.locals.groupUserData = [];
   let groupUserData = Groups.find({where: {userId: req.user.id, name: req.query.name} })
   .then(groupInst => {
@@ -98,45 +96,9 @@ exports.getGroupUsers = (req, res) => {
     });
   })
   .then(() => {
-    console.log('>>>>>>>>>>>>>>>>>>>>>>\n', res.locals.groupUserData);
     res.status(200).json(res.locals.groupUserData);
   })
   .catch(err => {
     res.stats(400).json(err);
   });
-
-
-  // let groupUserPrivacy = Promise.map(res.locals.groupUserData, (user) => {
-  //   console.log('here');
-  //   return Contacts.findOne({where: {userId: user.id, friendId: req.user.id}});
-  // })
-  // .then(privacyInst => {
-  //   Promise.map(privacyInst, (privacy) => {
-  //     return privacy ? privacy.get() : privacy;
-  //   });
-  // });
-
-
-
-  // Promise.all([groupUserData, groupUserPrivacy])
-  // .spread((users, privacy) => {
-  //   // console.log('>>>>>>>>>>>>>>>>>>>', users, privacy);
-  //   return Promise.map(users, (user, index) => {
-  //     if (privacy[index] === null) {
-  //       user.showSetting = 'pending';
-  //     } else {
-  //       user.showSetting = privacy[index].privacy;
-  //     }
-  //     return user;
-  //   });
-  // })
-  // .then(results => {
-  //   res.status(200).json(results);
-  // })
-  // .catch(err => {
-  //   console.log(err);
-  //   res.status(400).json(err);
-  // });
-
-
 };
