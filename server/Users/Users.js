@@ -27,6 +27,7 @@ exports.addFriend = (req, res) => {
 //http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
   // Assuming middle ware is doing work before to find the UserId in Database;
+<<<<<<< HEAD
   let query = {
     where: {
       userId: req.user.id
@@ -37,12 +38,17 @@ exports.getAllFriendData = (req, res, next) => {
   }
   let friendData = Contacts.findAll(query)
   .then(contactInst => {
+=======
+
+  let friendData = Contacts.findAll({where: {userId: req.user.id} } )
+  .then((contactInst) => {
+>>>>>>> Standardize syntax and add more error handling
     return Promise.map(contactInst, (contact) => {
       let contactData = contact.get();
       return Users.findOne({where: {id: contactData.friendId}});
     });
   })
-  .then(friendInst => {
+  .then((friendInst) => {
     return Promise.map(friendInst, (friend) => {
       return friend.get();
     });
@@ -50,14 +56,26 @@ exports.getAllFriendData = (req, res, next) => {
   .catch((err) => {
     console.error('There was an error getting all friend data: ', err);
   });
+<<<<<<< HEAD
   let privacyData = Contacts.findAll(query)
   .then(contactInst => {
+=======
+
+
+  let privacyData = Contacts.findAll({where: {userId: req.user.id} } )
+  .then((contactInst) => {
+>>>>>>> Standardize syntax and add more error handling
     return Promise.map(contactInst, (contact) => {
       let contactData = contact.get();
       return Contacts.findOne({where: {userId: contactData.friendId, friendId: req.user.id}});
     });
   })
+<<<<<<< HEAD
   .then(privacyInst => {
+=======
+  .then((privacyInst) => {
+    // console.log(JSON.stringify(privacyInst));
+>>>>>>> Standardize syntax and add more error handling
     return Promise.map(privacyInst, (privacy) => {
       return privacy ? privacy.get() : privacy;
     });
@@ -76,7 +94,7 @@ exports.getAllFriendData = (req, res, next) => {
       return data;
     });
   })
-  .then(results => {
+  .then((results) => {
     res.status(200).json(results);
   })
   .catch((err) => {
@@ -99,7 +117,7 @@ exports.getContactInformation = (req, res) => {
       if ( user !== null ) {
         let userData = user.get();
         return Contacts.findOne({where: {userId: req.user.id, friendId: userData.id} } )
-        .then( user => {
+        .then((user) => {
           if (user === null) {
             contact.hasApp = true;
             notFriends.push(contact);  
@@ -112,7 +130,7 @@ exports.getContactInformation = (req, res) => {
       // let userExist = !(user === null);
     });
   })
-  .then( results => {
+  .then((results) => {
     res.status(200).json(notFriends);
   });
 };
@@ -135,8 +153,8 @@ exports.updateCoordinates = (req, res) => {
     .then((user) => {
       res.status(202).json({});   
     })
-    .catch((error) => {
-      console.error('Errored out from updating coordinates');
+    .catch((err) => {
+      console.error('Errored out from updating coordinates: ', err);
       res.status(404).json({error: error});
     });
   });
@@ -157,6 +175,7 @@ exports.updatePrivacy = (req, res) => {
   }).then((user) => {
     res.status(200).send();
   }).catch((err) => {
+    console.error('There was an error updating the user privacy info: ', err);
     res.status(500).json({err: err});
   });
 };
@@ -165,11 +184,12 @@ exports.findUserWithPhoneNumber = (req, res, next) => {
   Users.findOne({ 
     where: { phoneNumber: '1234567' },
   })
-  .then(user => {
+  .then((user) => {
     req.friend = user.get();
     next();
   })
-  .catch(err => {
+  .catch((err) => {
+    console.error('There was an error finding a user via phone number: ', err);
     res.error = err;
     next();
   });
