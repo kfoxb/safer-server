@@ -52,14 +52,12 @@ exports.getAllFriendData = (req, res, next) => {
     });
   })
   .then(privacyInst => {
-    // console.log(JSON.stringify(privacyInst));
     return Promise.map(privacyInst, (privacy) => {
       return privacy ? privacy.get() : privacy;
     });
   });
   Promise.all([friendData, privacyData])
   .spread((friend, privacy) => {
-    console.log(friend);
     return Promise.map(friend, (data, index) => {
       if (privacy[index] === null) { 
         data.showSetting = 'pending'; 
@@ -125,7 +123,7 @@ exports.updateCoordinates = (req, res) => {
       res.status(202).json({});   
     })
     .catch((error) => {
-      console.log('Errored out from updating coordinates');
+      console.error('Errored out from updating coordinates');
       res.status(404).json({error: error});
     });
   });

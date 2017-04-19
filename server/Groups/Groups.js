@@ -30,10 +30,10 @@ exports.addGroup = (req, res) => {
     });
   })
   .then( results => {
-    // console.log(results);
     res.status(201).json('SUCCESS!!! Group Add');
   })
   .catch( err => {
+    console.error(err);
     if (err === 'exist') {
       res.status(409).json('Group already exist');
     } else {
@@ -53,6 +53,10 @@ exports.getGroups = (req, res) => {
   Promise.all(groupData)
   .then(groupData => {
     res.status(200).json(groupData); 
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(201).json(err);
   });
 };
 
@@ -72,7 +76,6 @@ exports.getGroupUsers = (req, res) => {
   .then(userInst => {
     return Promise.map(userInst, (user) => {
       res.locals.groupUserData.push(user.get());
-      // console.log(res.locals.groupUserData);
       return user.get();
     });
   })
@@ -99,6 +102,7 @@ exports.getGroupUsers = (req, res) => {
     res.status(200).json(res.locals.groupUserData);
   })
   .catch(err => {
+    console.error(err);
     res.stats(400).json(err);
   });
 };
