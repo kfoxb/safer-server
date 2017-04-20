@@ -21,50 +21,52 @@ const { addGroup, getGroups, getGroupUsers } = require('./Groups/Groups.js');
 const authorization = require('./Authorization/Authorization.js');
 const {addLabel, getAllFences} = require('./Labels/Labels.js');
 
+const api = express.Router();
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 app.use(authorization);
 
-app.route('/api/users/location')
+api.route('/users/location')
   .put(updateCoordinates);
 
-app.route('/api/user')
+api.route('/user')
   .put(updateUser);
 
-app.route('/api/labels')
+api.route('/labels')
   .get(getAllFences)
   .post(addLabel);
 
 
-app.route('/api/groups')
+api.route('/groups')
   .post(addGroup)
   .get(getGroups);
   
-app.get('/api/groupUsers', getGroupUsers);
+api.get('/groupUsers', getGroupUsers);
 
-app.route('/api/friends')
+api.route('/friends')
   .get(getAllFriendData)
   .post(addFriend);
 
-app.route('/api/friends/:id')
+api.route('/friends/:id')
   .get(getFriendById)
   .put(updateFriendById);
 
 /******************************************/
 /*Did Post Because GET was stringifying the array weird*/
 
-app.post('/api/contacts', getContactInformation);
+api.post('/contacts', getContactInformation);
 /******************************************/
 
-app.post('/api/fcmToken', updateFCMToken);
+api.post('/fcmToken', updateFCMToken);
 
-app.put('/api/privacySettings', updatePrivacy);
+api.put('/privacySettings', updatePrivacy);
 
-app.put('/api/coordinates', updateCoordinates);
+api.put('/coordinates', updateCoordinates);
 
-app.get('/api/test', findUserWithPhoneNumber, addSubscriptionToTable);
+api.get('/test', findUserWithPhoneNumber, addSubscriptionToTable);
 
-let port = process.env.PORT || 1337;
+const port = process.env.PORT || 1337;
 
 app.listen(port);
 
