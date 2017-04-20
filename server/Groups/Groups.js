@@ -43,6 +43,7 @@ exports.addGroup = (req, res) => {
 };
 
 exports.getGroups = (req, res) => {
+  console.log('data');
   let groupInst = Groups.findAll({where: {userId: req.user.id} } )
   .then(groups => {
     return groups;
@@ -93,8 +94,15 @@ exports.getNonGroupUsers = (req, res) => {
   })
   .then(friendInst => {
     return Promise.map(friendInst, friend => {
-      console.log(friend.get());
+      return friend.get();
     });
+  })
+  .then(friendData => {
+    res.status(200).json(friendData);
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(400).json(err);
   });
 };
 
