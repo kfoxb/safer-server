@@ -2,6 +2,7 @@ const Promise = require('bluebird');
 const Users = require('../../db/Users/Users.js');
 const Contacts = require('../../db/Contacts/Contacts.js');
 const Labels = require('../../db/Labels/Labels.js');
+const { sendFriendRequest } = require('../Firebase/Firebase.js');
 const phone = require('phone');
 
 exports.addFriend = (req, res) => {
@@ -16,6 +17,8 @@ exports.addFriend = (req, res) => {
       friendship.update({privacy: 'label'}); //TODO: error handling
       return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'label'});
     } else {
+      // TODO: only update the db after confirming that the notification has been sent (no errors)
+      sendFriendRequest(`${req.user.first} ${req.user.last}`, userData.FCMToken); 
       return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'pending'});
     }
   })
