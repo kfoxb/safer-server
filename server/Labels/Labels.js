@@ -10,7 +10,6 @@ exports.addLabel = (req, res) => {
     }
   })
   .then((user) => {
-    console.log('user when creating a Label/fence', user);
     Labels.create({
       userId: user.dataValues.id,
       label: req.body.label,
