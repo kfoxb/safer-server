@@ -12,16 +12,15 @@ exports.addFriend = (req, res) => {
     return Contacts.find({ where: {userId: userData.id, friendId: req.user.id} });
   })
   .then((friendship) => {
-    if (friendship !== null) {
-      friendship.update({privacy: 'label'});
+    if (friendship !== null) { // throw/catch instead (use .error for errors before catch)
+      friendship.update({privacy: 'label'}); //TODO: error handling
       return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'label'});
     } else {
       return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'pending'});
     }
   })
   .then((newFriendship) => {
-    let newFriend = newFriendship.get();
-    return newFriend;
+    return newFriendship.get();
   })
   .then((newFriend) => {
     // TODO: send pending/friend confirmed based on newFriend's privacy setting
