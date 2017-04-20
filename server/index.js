@@ -25,7 +25,7 @@ const api = express.Router();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
-app.use(authorization);
+api.use(authorization);
 
 api.route('/users/location')
   .put(updateCoordinates);
@@ -65,6 +65,8 @@ api.put('/privacySettings', updatePrivacy);
 api.put('/coordinates', updateCoordinates);
 
 api.get('/test', findUserWithPhoneNumber, addSubscriptionToTable);
+
+app.use('/api', api);
 
 const port = process.env.PORT || 1337;
 
