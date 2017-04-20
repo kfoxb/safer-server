@@ -71,7 +71,7 @@ app.use('/api', api);
 app.get('/api/test', findUserWithPhoneNumber, addSubscriptionToTable);
 
 
-let port = process.env.PORT || 1337;
+const port = process.env.PORT || 1337;
 
 app.listen(port);
 
