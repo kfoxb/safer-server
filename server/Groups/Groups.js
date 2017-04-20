@@ -86,8 +86,14 @@ exports.getNonGroupUsers = (req, res) => {
   })
   .then(contactInst => {
     console.log('here');
-    return Promise.each(contactInst, (contact) => {
-      console.log('>>>>>>>>>>', contact.get());
+    return Promise.map(contactInst, (contact) => {
+      let contactId = contact.get('friendId');
+      return Users.findOne({where: {id: contactId} });
+    });
+  })
+  .then(friendInst => {
+    return Promise.map(friendInst, friend => {
+      console.log(friend.get());
     });
   });
 };
