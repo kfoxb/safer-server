@@ -1,9 +1,9 @@
 const Promise = require('bluebird');
 const Users = require('../../db/Users/Users.js');
-const serverKey = require('../Firebase/fcm-server-key.js').serverKey;
+const serverKey = process.env.FCM_SERVER_KEY;
 
 var admin = require('firebase-admin');
-var serviceAccount = require('./firebase-key.json');
+var serviceAccount = require('./firebase-key.js');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
