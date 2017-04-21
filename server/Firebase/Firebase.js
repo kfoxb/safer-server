@@ -47,12 +47,8 @@ exports.sendNotifications = (pubId, tokenArray) => {
         })
       }
     };
-    return Promise.each(tokenArray, (token, index) => {
-      console.log('admin called');
-      return admin.messaging().sendToDevice(token, payload);
-    });
-  })
-  .catch(err => {
+    return admin.messaging().sendToDevice(tokenArray, payload)
+  .error((err) => {
     console.log(err);
   });
 };
