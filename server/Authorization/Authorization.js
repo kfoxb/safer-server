@@ -36,5 +36,5 @@ module.exports = (req, res, next) => {
   .then((user) => {
     req.user = user.get();
     next();
-  })
+  });
 };

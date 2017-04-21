@@ -12,12 +12,12 @@ exports.addFriend = (req, res) => {
     if (friendship !== null) {
       throw friendship;
     }
-    return sendFriendRequest(`${req.user.first} ${req.user.last}`, req.friend.FCMToken)
+    return sendFriendRequest(`${req.user.first} ${req.user.last}`, req.friend.FCMToken);
   })
   .then((response) => {
     // TODO: only update the db after confirming that the notification has been sent (no errors)
     console.log('response after sending notification: ', response);
-    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'pending'})
+    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'pending'});
   })
   .error((err) => {
     console.error('There was an error sending a friend request or adding a pending friend: ', err);

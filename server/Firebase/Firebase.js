@@ -34,7 +34,7 @@ exports.sendNotifications = (pubId, tokenArray) => {
         })
       }
     };
-    return admin.messaging().sendToDevice(tokenArray, payload)
+    return admin.messaging().sendToDevice(tokenArray, payload);
   }).error((err) => {
     console.log(err);
   });
