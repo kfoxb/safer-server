@@ -6,18 +6,19 @@ const phone = require('phone');
 exports.addSubscriptionToTable = (req, res) => {
   Notifications.findOrCreate({where: {pubId: req.user.id, subToken: req.friend.FCMToken}})
   .then(() => {
-    res.status(200).json({status: 'Subscription created.'});
+    res.status(201).json({status: 'Subscription created'});
   })
   .then(() => {
     exports.checkSubscriptions(1, 'Elsewhere', 'Home'); //TODO: use this elsewhere after testing is finished
   })
   .catch((err) => {
+    console.log('There was an error subscribing to a friend: ', err);
     res.status(500);
     if (res.error) {
       res.json();
     } else {
       res.error = err;
-      res.json();
+      res.json(err);
     }
   });
 };
