@@ -52,7 +52,7 @@ exports.sendFriendRequest = (userName, friendToken) => {
     }
   };
   // TODO: return this 
-  admin.messaging().sendToDevice(friendToken, payload);
+  return admin.messaging().sendToDevice(friendToken, payload);
 };
 
   // var payload = {
