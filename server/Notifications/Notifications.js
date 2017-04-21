@@ -4,12 +4,9 @@ const { sendNotifications } = require('../Firebase/Firebase.js');
 const phone = require('phone');
 
 exports.addSubscriptionToTable = (req, res) => {
-  Notifications.findOrCreate({where: {pubId: req.user.id, subToken: req.friend.FCMToken}})
+  Notifications.findOrCreate({where: {pubId: req.friend.id, subToken: req.user.FCMToken}})
   .then(() => {
     res.status(201).json({status: 'Subscription created'});
-  })
-  .then(() => {
-    exports.checkSubscriptions(1, 'Elsewhere', 'Home'); //TODO: use this elsewhere after testing is finished
   })
   .catch((err) => {
     console.log('There was an error subscribing to a friend: ', err);
@@ -23,6 +20,7 @@ exports.addSubscriptionToTable = (req, res) => {
   });
 };
 
+//TODO: use this each time a location is updated for a user
 exports.checkSubscriptions = (userId, oldLabel, newLabel) => {
   if (oldLabel === 'Home' || newLabel !== 'Home') { return; }
   if (newLabel === 'Home') {

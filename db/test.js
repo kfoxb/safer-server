@@ -30,7 +30,7 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
       FCMToken: 'testtoken2'
     }});
 }).then(() => {
-  return Users.findOrCreate({where: {phoneNumber: '324321423'},
+  return Users.findOrCreate({where: {phoneNumber: '+19096412326'},
     defaults: {
       first: 'Kyle',
       last: 'Bradford',
@@ -38,6 +38,7 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
       lat: '37.741049',
       long: '-122.444415',
       currentLabel: 'School',
+      FCMToken: 'ffDWr1QAHI8:APA91bFs-2BKmuQOAYtK29G-ZYVpTRMA_k1WDieWvU6fkOaw-fnnhJTq9dnpUUQCt20nFNNPot1sCb3vLqIDRskBkJFUWAEXisDR4epWxZr4XDEvhQf_ra4eQEmHmr80cbEEPg4xgkdl'
     }});
 }).then(() => {
   return Users.findOrCreate({where: {phoneNumber: '878765875'},

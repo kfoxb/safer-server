@@ -185,7 +185,6 @@ exports.updateUser = (req, res) => {
 };
 
 exports.findUserWithPhoneNumber = (req, res, next) => {
-  console.log('phone number: ', req.body);
   Users.findOne({ 
     where: { phoneNumber: phone(req.body.phoneNumber)[0] },
   })
