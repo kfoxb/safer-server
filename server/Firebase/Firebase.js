@@ -3,7 +3,6 @@ const Users = require('../../db/Users/Users.js');
 const serverKey = process.env.FCM_SERVER_KEY;
 
 var admin = require('firebase-admin');
-var serviceAccount = require('./firebase-key.js');
 
 process.env.FIREBASE_KEY_PRIVATE_KEY = process.env.FIREBASE_KEY_PRIVATE_KEY.replace(/\\n/g, '\n');
 
