@@ -154,8 +154,8 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
 }).then(() => {
   GroupMembers.findOrCreate({where: {groupId: 1, userId: 4}});
 }).then(() => {
+  Notifications.findOrCreate({where: {pubId: 1, subToken: 'ffDWr1QAHI8:APA91bFs-2BKmuQOAYtK29G-ZYVpTRMA_k1WDieWvU6fkOaw-fnnhJTq9dnpUUQCt20nFNNPot1sCb3vLqIDRskBkJFUWAEXisDR4epWxZr4XDEvhQf_ra4eQEmHmr80cbEEPg4xgkdl'}});
   Notifications.findOrCreate({where: {pubId: 1, subToken: 'db9X4YB6vDQ:APA91bHDabjLw07n83VdSHeccZTqCYHhQhHXfC79ogKcXsotJNsjHPP1cRa1zepWuVrhSmwCE7Hk_ys_LptQPpfZbDbHsUI24p_9q6fQFAIDJwyBwj3KnSWKfttHer0iKVe-KGKbXABW'}});
-  Notifications.findOrCreate({where: {pubId: 1, subToken: 'c7zjUWic2NQ:APA91bEC20PlsPv7aX5XE4mr3GHQulc9NWVjpvsrS3MDVOZcZZPYrBPlc0ORclk1PK8G8DrdAoOJj_7O7hIr9V_DN6ErshmcQ99fVuXQWAsMWnix6cCCerq6W8IWZyzCmGkVKE4PSxQW'}});
   Notifications.findOrCreate({where: {pubId: 1, subToken: 'ezxk8eARn2o:APA91bEs58G4Rq6lEShzG475AjvLQv-WCXTmXCoSPUGuL1OIuqTlTuA6qhqJc-ZGLCwVa25FP0z1rT8KlTR_BoiTQbn3_k4-fdff6YMFIS47O8peYQSZ4gTxT7TdjxsPAmjqwkP8jSQQ'}});
 });
 
