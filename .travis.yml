@@ -12,3 +12,7 @@ after_success:
   - npm run generateCoverage
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < lcov.info
+addons:
+  code_climate:
+    repo_token: f67d6ca4a82bcc7a04f43de432e96fa2da954f9f9208bb38f2a1f58ef56f0c03
+
