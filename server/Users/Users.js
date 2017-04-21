@@ -6,30 +6,34 @@ const { sendFriendRequest } = require('../Firebase/Firebase.js');
 const phone = require('phone');
 
 exports.addFriend = (req, res) => {
-  console.log('in add friend: ', req.friend);
+  //See if there is a pending friendship (search for the reverse relationship - friend - user)
   Contacts.find({ where: {userId: req.friend.id, friendId: req.user.id} })
   .then((friendship) => {
-    if (friendship === null) {
+    if (friendship !== null) {
       throw friendship;
     }
+    return sendFriendRequest(`${req.user.first} ${req.user.last}`, req.friend.FCMToken)
+  })
+  .then((response) => {
+    // TODO: only update the db after confirming that the notification has been sent (no errors)
+    console.log('response after sending notification: ', response);
+    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'pending'})
+  })
+  .error((err) => {
+    console.error('There was an error sending a friend request or adding a pending friend: ', err);
+    res.status(500).send();
+  })
+  .catch((friendship) => {
     friendship.update({privacy: 'label'}); //TODO: error handling
     return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'label'});
   })
-  .then((newFriendship) => {
-    return newFriendship.get();
-  })
-  .then((newFriend) => {
-    // TODO: send pending/friend confirmed based on newFriend's privacy setting
-    res.status(201).json('Success! Friend request pending');
+  .then((createdFriendship) => {
+    res.status(201).send();
   })
   .error((err) => {
-    console.error('There was an error adding a friend: ', err);
-  })
-  .catch((friendship) => {
-    // TODO: only update the db after confirming that the notification has been sent (no errors)
-    sendFriendRequest(`${req.user.first} ${req.user.last}`, req.friend.FCMToken); 
-    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'pending'}); // TODO: error handling
-  })
+    console.log('there was an error in creating a mutual friendship: ', err);
+    res.status(500).send();
+  });
 };
 
 
@@ -181,6 +185,7 @@ exports.updateUser = (req, res) => {
 };
 
 exports.findUserWithPhoneNumber = (req, res, next) => {
+  console.log('phone number: ', req.body);
   Users.findOne({ 
     where: { phoneNumber: phone(req.body.phoneNumber)[0] },
   })
