@@ -74,7 +74,7 @@ api.post('/contacts', getContactInformation);
 
 api.put('/coordinates', updateCoordinates);
 
-api.get('/test', findUserWithPhoneNumber, addSubscriptionToTable);
+api.post('/subscribe', findUserWithPhoneNumber, addSubscriptionToTable);
 
 app.use('/api', api);
 
