@@ -6,11 +6,9 @@ const GroupMembers = require('../../db/GroupMembers/GroupMembers.js');
 const phone = require('phone');
 
 exports.updateGroupPrivacy = (req, res) => {
-  console.log('herwesadf');
   Groups.findOne({where: {name: req.query.name, userId: req.user.id} } )
   .then(groupInst => {
     let newPrivacy;
-
     if (req.body.showLabel) {
       newPrivacy = 'label';
     } else {
@@ -19,20 +17,21 @@ exports.updateGroupPrivacy = (req, res) => {
     return groupInst.update({privacy: newPrivacy});
   })
   .then(newGroupInst => {
-    res.status(200).json(newGroupInst.get());
-    
+    res.status(200).json();
+  })
+  .catch(err =>{
+    console.error(err);
+    res.status(400).json();
   });
 };
 
 exports.updateGroupUsers = (req, res) => {
-  console.log(req.body);
   Groups.findOne({where: {userId: req.user.id, name: req.query.name} })
   .then(groupInst => {
     return groupInst.get('id');
   })
   .tap(groupId => {
     Promise.each(req.body.toAdd, user => {
-      console.log(groupId, user.id);
       return GroupMembers.create({groupId: groupId, userId: user.id});
     });
   })
@@ -53,7 +52,7 @@ exports.updateGroupUsers = (req, res) => {
     console.error(err);
   })
   .catch(err => {
-    console.log('error in editing group', err);
+    console.error('error in editing group', err);
     res.status(400).json(err);
   });
 };

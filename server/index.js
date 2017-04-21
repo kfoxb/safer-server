@@ -6,7 +6,7 @@ const {
   getAllFriendData,
   getFriendById,
   addFriend,
-  updateFriendById,
+  updateFriendPrivacy,
   updatePrivacy,
   updateCoordinates,
   getContactInformation,
@@ -64,7 +64,7 @@ api.route('/friends')
 
 api.route('/friends/:id')
   .get(getFriendById)
-  .put(updateFriendById);
+  .put(updateFriendPrivacy);
 
 /******************************************/
 /*Did Post Because GET was stringifying the array weird*/

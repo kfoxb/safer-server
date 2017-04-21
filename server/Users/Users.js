@@ -45,21 +45,26 @@ exports.getAllFriendData = (req, res, next) => {
   if (req.query.groups === 'true') {
     query['where']['privacy'] = {$ne: 'pending'};
   }
+  let showFriendPrivacy = [];
   let friendData = Contacts.findAll(query)
   .then((contactInst) => {
     return Promise.map(contactInst, (contact) => {
       let contactData = contact.get();
+      showFriendPrivacy.push(contactData.privacy);
       return Users.findOne({where: {id: contactData.friendId}});
     });
   })
   .then((friendInst) => {
-    return Promise.map(friendInst, (friend) => {
-      return friend.get();
+    return Promise.map(friendInst, (friend, index) => {
+      let friendObj = friend.get();
+      friendObj['showFriendSetting'] = showFriendPrivacy[index];
+      return friendObj;
     });
   })
   .catch((err) => {
     console.error('There was an error getting all friend data: ', err);
   });
+
   let privacyData = Contacts.findAll(query)
   .then((contactInst) => {
     return Promise.map(contactInst, (contact) => {
@@ -68,7 +73,6 @@ exports.getAllFriendData = (req, res, next) => {
     });
   })
   .then((privacyInst) => {
-    // console.log(JSON.stringify(privacyInst));
     return Promise.map(privacyInst, (privacy) => {
       return privacy ? privacy.get() : privacy;
     });
@@ -76,6 +80,7 @@ exports.getAllFriendData = (req, res, next) => {
   .catch((err) => {
     console.error('There was an error getting privacy data: ', err);
   });
+
   Promise.all([friendData, privacyData])
   .spread((friend, privacy) => {
     return Promise.map(friend, (data, index) => {
@@ -128,8 +133,24 @@ exports.getContactInformation = (req, res) => {
   });
 };
 
-exports.updateFriendById = (req, res) => {
-  res.status(200).json({});
+exports.updateFriendPrivacy = (req, res) => {
+  Contacts.findOne({where: {userId: req.user.id, friendId: req.params.id} } )
+  .then(contactInst => {
+    let newPrivacy;
+    if (req.body.showLabel) {
+      newPrivacy = 'label';
+    } else {
+      newPrivacy = 'GPS';
+    }
+    return contactInst.update({privacy: newPrivacy});
+  })
+  .then(newContactInst => {
+    res.status(200).json(newContactInst.get());
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(400).json(err);
+  });
 };
 
 exports.updateCoordinates = (req, res) => {
