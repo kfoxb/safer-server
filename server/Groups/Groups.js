@@ -5,19 +5,13 @@ const Groups = require('../../db/Groups/Groups.js');
 const GroupMembers = require('../../db/GroupMembers/GroupMembers.js');
 const phone = require('phone');
 
-exports.updateGroupPrivacy = (req, res) => {
+exports.updateGroup = (req, res) => {
   Groups.findOne({where: {name: req.query.name, userId: req.user.id} } )
   .then(groupInst => {
-    let newPrivacy;
-    if (req.body.showLabel) {
-      newPrivacy = 'label';
-    } else {
-      newPrivacy = 'GPS';
-    }
-    return groupInst.update({privacy: newPrivacy});
+    return groupInst.update(req.body);
   })
   .then(newGroupInst => {
-    res.status(200).json();
+    res.status(200).json(newGroupInst.get());
   })
   .catch(err =>{
     console.error(err);

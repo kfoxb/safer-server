@@ -6,7 +6,7 @@ const {
   getAllFriendData,
   getFriendById,
   addFriend,
-  updateFriendPrivacy,
+  updateFriend,
   updatePrivacy,
   updateCoordinates,
   getContactInformation,
@@ -23,7 +23,7 @@ const {
   getGroupUsers, 
   getNonGroupUsers, 
   updateGroupUsers,
-  updateGroupPrivacy
+  updateGroup
 } = require('./Groups/Groups.js');
 const authorization = require('./Authorization/Authorization.js');
 const {addLabel, getAllFences} = require('./Labels/Labels.js');
@@ -48,7 +48,7 @@ api.route('/labels')
 api.route('/groups')
   .post(addGroup)
   .get(getGroups)
-  .put(updateGroupPrivacy);
+  .put(updateGroup);
   
 
 api.route('/groupUsers')
@@ -64,7 +64,7 @@ api.route('/friends')
 
 api.route('/friends/:id')
   .get(getFriendById)
-  .put(updateFriendPrivacy);
+  .put(updateFriend);
 
 /******************************************/
 /*Did Post Because GET was stringifying the array weird*/

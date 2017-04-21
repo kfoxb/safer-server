@@ -133,16 +133,10 @@ exports.getContactInformation = (req, res) => {
   });
 };
 
-exports.updateFriendPrivacy = (req, res) => {
+exports.updateFriend = (req, res) => {
   Contacts.findOne({where: {userId: req.user.id, friendId: req.params.id} } )
   .then(contactInst => {
-    let newPrivacy;
-    if (req.body.showLabel) {
-      newPrivacy = 'label';
-    } else {
-      newPrivacy = 'GPS';
-    }
-    return contactInst.update({privacy: newPrivacy});
+    return contactInst.update(req.body);
   })
   .then(newContactInst => {
     res.status(200).json(newContactInst.get());
