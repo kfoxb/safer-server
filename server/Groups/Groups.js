@@ -5,6 +5,25 @@ const Groups = require('../../db/Groups/Groups.js');
 const GroupMembers = require('../../db/GroupMembers/GroupMembers.js');
 const phone = require('phone');
 
+exports.updateGroupPrivacy = (req, res) => {
+  console.log('herwesadf');
+  Groups.findOne({where: {name: req.query.name, userId: req.user.id} } )
+  .then(groupInst => {
+    let newPrivacy;
+
+    if (req.body.showLabel) {
+      newPrivacy = 'label';
+    } else {
+      newPrivacy = 'GPS';
+    }
+    return groupInst.update({privacy: newPrivacy});
+  })
+  .then(newGroupInst => {
+    res.status(200).json(newGroupInst.get());
+    
+  });
+};
+
 exports.updateGroupUsers = (req, res) => {
   console.log(req.body);
   Groups.findOne({where: {userId: req.user.id, name: req.query.name} })

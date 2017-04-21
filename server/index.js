@@ -17,7 +17,14 @@ const {
 const { updateFCMToken } = require('./Firebase/Firebase.js');
 const { addSubscriptionToTable } = require('./Notifications/Notifications.js');
 
-const { addGroup, getGroups, getGroupUsers, getNonGroupUsers, updateGroupUsers } = require('./Groups/Groups.js');
+const { 
+  addGroup, 
+  getGroups, 
+  getGroupUsers, 
+  getNonGroupUsers, 
+  updateGroupUsers,
+  updateGroupPrivacy
+} = require('./Groups/Groups.js');
 const authorization = require('./Authorization/Authorization.js');
 const {addLabel, getAllFences} = require('./Labels/Labels.js');
 
@@ -40,7 +47,8 @@ api.route('/labels')
 
 api.route('/groups')
   .post(addGroup)
-  .get(getGroups);
+  .get(getGroups)
+  .put(updateGroupPrivacy);
   
 
 api.route('/groupUsers')
