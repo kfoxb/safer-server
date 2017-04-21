@@ -72,10 +72,6 @@ api.route('/friends/:id')
 api.post('/contacts', getContactInformation);
 /******************************************/
 
-api.post('/fcmToken', updateFCMToken);
-
-api.put('/privacySettings', updatePrivacy);
-
 api.put('/coordinates', updateCoordinates);
 
 api.get('/test', findUserWithPhoneNumber, addSubscriptionToTable);
