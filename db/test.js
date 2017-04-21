@@ -87,7 +87,8 @@ Users.findOrCreate({where: {phoneNumber: '123123123'},
       last: 'Dummy1',
       email: 'dummy1@email.com',
       lat: '37.720844',
-      long: '-122.462258'
+      long: '-122.462258',
+      FCMToken: 'ffDWr1QAHI8:APA91bFs-2BKmuQOAYtK29G-ZYVpTRMA_k1WDieWvU6fkOaw-fnnhJTq9dnpUUQCt20nFNNPot1sCb3vLqIDRskBkJFUWAEXisDR4epWxZr4XDEvhQf_ra4eQEmHmr80cbEEPg4xgkdl'
     }});
   Users.findOrCreate({where: {phoneNumber: '1212121212'},
     defaults: {

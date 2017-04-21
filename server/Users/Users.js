@@ -6,21 +6,14 @@ const { sendFriendRequest } = require('../Firebase/Firebase.js');
 const phone = require('phone');
 
 exports.addFriend = (req, res) => {
-  let contact = req.body.contact;
-  Users.findOne({ where: {phoneNumber: phone(contact.phoneNumber)[0]} } )
-  .then((user) => {
-    let userData = user.get();
-    return Contacts.find({ where: {userId: userData.id, friendId: req.user.id} });
-  })
+  console.log('in add friend: ', req.friend);
+  Contacts.find({ where: {userId: req.friend.id, friendId: req.user.id} })
   .then((friendship) => {
-    if (friendship !== null) { // throw/catch instead (use .error for errors before catch)
-      friendship.update({privacy: 'label'}); //TODO: error handling
-      return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'label'});
-    } else {
-      // TODO: only update the db after confirming that the notification has been sent (no errors)
-      sendFriendRequest(`${req.user.first} ${req.user.last}`, userData.FCMToken); 
-      return Contacts.create({userId: req.user.id, friendId: userData.id, privacy: 'pending'});
+    if (friendship === null) {
+      throw friendship;
     }
+    friendship.update({privacy: 'label'}); //TODO: error handling
+    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'label'});
   })
   .then((newFriendship) => {
     return newFriendship.get();
@@ -29,9 +22,14 @@ exports.addFriend = (req, res) => {
     // TODO: send pending/friend confirmed based on newFriend's privacy setting
     res.status(201).json('Success! Friend request pending');
   })
-  .catch((err) => {
+  .error((err) => {
     console.error('There was an error adding a friend: ', err);
-  });
+  })
+  .catch((friendship) => {
+    // TODO: only update the db after confirming that the notification has been sent (no errors)
+    sendFriendRequest(`${req.user.first} ${req.user.last}`, req.friend.FCMToken); 
+    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'pending'}); // TODO: error handling
+  })
 };
 
 
@@ -171,28 +169,6 @@ exports.updateCoordinates = (req, res) => {
   });
 };
 
-exports.updatePrivacy = (req, res) => {
-  // TODO: set a userId on the req.body to query the db with
-  // currently hardcoding to 1
-  var toUpdate = {};
-  if (req.body.privacy) {
-    toUpdate = { defaultPrivacy: req.body.privacy };
-  } else if (req.body.incognito) {
-    toUpdate = { incognito: req.body.incognito };
-  }
-  Users.findOne({where: {id: req.body.userId}})
-  .then((user) => {
-    return user.update(toUpdate);
-  })
-  .then((user) => {
-    res.status(200).send();
-  })
-  .catch((err) => {
-    console.error('There was an error updating the user privacy info: ', err);
-    res.status(500).json({err: err});
-  });
-};
-
 exports.updateUser = (req, res) => {
   Users.update(req.body, {where: {id: req.user.id}})
   .then(() => {
@@ -206,10 +182,12 @@ exports.updateUser = (req, res) => {
 
 exports.findUserWithPhoneNumber = (req, res, next) => {
   Users.findOne({ 
-    where: { phoneNumber: '1234567' },
+    where: { phoneNumber: phone(req.body.phoneNumber)[0] },
   })
   .then((user) => {
-    req.friend = user.get();
+    if (user) {
+      req.friend = user.get();
+    }
     next();
   })
   .catch((err) => {
