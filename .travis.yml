@@ -6,3 +6,9 @@ deploy:
   api_key:
     secure: bEPjiRzBr9yGNiyyMfIQ3W3/HoIfNcaH40HEVUT+fL6jp5ocFgXG5IdsiC7kSsCImRWF+hRXKk9DE+X5I3DjVYIpiZJs3s5foJ4KFtpBwVqVUsRTG51eS5PLrK3exF/PaZIUCLlhPJQuNyfdIKZV1u3jyI+Htyb8hzIC3AyJDRlzOhgZBdKKCN9+FO3VSrTy6ayJBIN7WuBKSzO+avkxDWPIvwvAqlGimL8rZb7AwYJBNEbvGg/ezHaqEZ1nzrT45GZ4xh0XH2SaC7FoW6kf+AWcwNAvu/Jg/lmK6/07eMvImXKF1nLz5E4O1Lhhuj8wRKN2tXe8ohy3n8LJtJQokLDDQ708124HnUrT4VXuyjgo6ojOg1jF/OUE9hd9a4CVFjIaO1a8Mrqnj1A3YphE84HBsTkI+anAY3eUFjvdwgPU5m3DE470jcyPmeI+QJoUERLMwUpYrL3hFLQK7IH/uVrbGH2gvjfL/44y+35mJe+1MHW2Es98gHP7jHLk8d7CJ4ndHGLP1WWBlc/b6mVxm1UZPvjYXpfe/FnxBs8JF4sbqXmcfcxEki0oGFUVmuS2Gk/81N4JnNqSirtvvAszv3TU43QeeVrSJcsHlcF39O6S8+bl2vTp0xCl9mDli6EwRVEj3rhkaTiCMFq3zFT069QxcCwpsDLCA60qw6fjhCI=
   app: safer-staging
+before_script:
+  - npm install -g istanbul
+after_success:
+  - npm run generateCoverage
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < lcov.info

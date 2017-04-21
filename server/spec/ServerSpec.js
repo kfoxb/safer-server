@@ -1,4 +1,5 @@
 //this block is for testing setup
+require('dotenv').config({path: './config.env'});
 const expect = require('chai').expect;
 const stubs = require('./Stubs');
 const chai = require('chai');
