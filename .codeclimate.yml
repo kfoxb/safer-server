@@ -1,2 +1,3 @@
-eslint:
-  enabled: false
+engines: 
+  eslint:
+    enabled: false
