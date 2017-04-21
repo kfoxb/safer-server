@@ -60,7 +60,7 @@ api.get('/nonGroupUsers', getNonGroupUsers);
 
 api.route('/friends')
   .get(getAllFriendData)
-  .post(addFriend);
+  .post(findUserWithPhoneNumber, addFriend);
 
 api.route('/friends/:id')
   .get(getFriendById)
