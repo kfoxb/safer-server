@@ -5,6 +5,40 @@ const Groups = require('../../db/Groups/Groups.js');
 const GroupMembers = require('../../db/GroupMembers/GroupMembers.js');
 const phone = require('phone');
 
+exports.updateGroupUsers = (req, res) => {
+  console.log(req.body);
+  Groups.findOne({where: {userId: req.user.id, name: req.query.name} })
+  .then(groupInst => {
+    return groupInst.get('id');
+  })
+  .tap(groupId => {
+    Promise.each(req.body.toAdd, user => {
+      console.log(groupId, user.id);
+      return GroupMembers.create({groupId: groupId, userId: user.id});
+    });
+  })
+  .then(groupId => {
+    return Promise.map(req.body.toDelete, user => {
+      return GroupMembers.findOne({where: {groupId: groupId, userId: user.id} } );
+    });
+  })
+  .then(toDeleteInst => {
+    Promise.map(toDeleteInst, user => {
+      return user.destroy();
+    });
+  })
+  .then(() => {
+    res.status(200).json('hello');
+  })
+  .error(err => {
+    console.error(err);
+  })
+  .catch(err => {
+    console.log('error in editing group', err);
+    res.status(400).json(err);
+  });
+};
+
 exports.addGroup = (req, res) => {
   let groupSettings = req.body.groupSettings;
   let groupId = Groups.findOrCreate({where: {userId: req.user.id, name: groupSettings.groupName}, 
@@ -43,7 +77,6 @@ exports.addGroup = (req, res) => {
 };
 
 exports.getGroups = (req, res) => {
-  console.log('data');
   let groupInst = Groups.findAll({where: {userId: req.user.id} } )
   .then(groups => {
     return groups;
@@ -86,7 +119,6 @@ exports.getNonGroupUsers = (req, res) => {
     });
   })
   .then(contactInst => {
-    console.log('here');
     return Promise.map(contactInst, (contact) => {
       let contactId = contact.get('friendId');
       return Users.findOne({where: {id: contactId} });
@@ -107,7 +139,7 @@ exports.getNonGroupUsers = (req, res) => {
 };
 
 exports.getGroupUsers = (req, res) => {
-  res.locals.groupUserData = [];
+  let groupUserData = [];
   Groups.find({where: {userId: req.user.id, name: req.query.name} })
   .then(groupInst => {
     let groupData = groupInst.get();
@@ -121,7 +153,7 @@ exports.getGroupUsers = (req, res) => {
   })
   .then(userInst => {
     return Promise.map(userInst, (user) => {
-      res.locals.groupUserData.push(user.get());
+      groupUserData.push(user.get());
       return user.get();
     });
   })
@@ -138,14 +170,14 @@ exports.getGroupUsers = (req, res) => {
   .then(contactData => {
     return Promise.each(contactData, (contact, index) => {
       if (contact === null) {
-        res.locals.groupUserData[index].showSetting = 'pending';
+        groupUserData[index].showSetting = 'pending';
       } else {
-        res.locals.groupUserData[index].showSetting = contact.privacy;
+        groupUserData[index].showSetting = contact.privacy;
       }
     });
   })
   .then(() => {
-    res.status(200).json(res.locals.groupUserData);
+    res.status(200).json(groupUserData);
   })
   .catch(err => {
     console.error(err);
