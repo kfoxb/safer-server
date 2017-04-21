@@ -5,8 +5,13 @@ const serverKey = process.env.FCM_SERVER_KEY;
 var admin = require('firebase-admin');
 var serviceAccount = require('./firebase-key.js');
 
+process.env.FIREBASE_KEY_PRIVATE_KEY = process.env.FIREBASE_KEY_PRIVATE_KEY.replace(/\\n/g, '\n');
+
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert({
+    'private_key': process.env.FIREBASE_KEY_PRIVATE_KEY,
+    'client_email': process.env.FIREBASE_KEY_CLIENT_EMAIL,
+  }),
   databaseURL: 'https://fir-safer.firebaseio.com'
 });
 
