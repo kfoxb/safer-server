@@ -15,19 +15,6 @@ admin.initializeApp({
   databaseURL: 'https://fir-safer.firebaseio.com'
 });
 
-exports.updateFCMToken = (req, res) => {
-  //TODO: set a userId on the req.body to query the db with
-  //currently hardcoding to 1
-  Users.findOne({where: {id: req.user.id}})
-  .then(user => {
-    return user.update({FCMToken: req.body.FCMToken});
-  }).then(user => {
-    res.status(200).send();
-  }).catch(err => {
-    res.status(500).json({err: err});
-  });
-};
-
 exports.sendNotifications = (pubId, tokenArray) => {
   Users.findOne({
     where: {id: pubId},
