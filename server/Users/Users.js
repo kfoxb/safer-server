@@ -154,7 +154,7 @@ exports.updateFriend = (req, res) => {
 exports.updateCoordinates = (req, res) => {
   Users.findOne({
     where: {
-      phoneNumber: req.body.user
+      phoneNumber: req.user.phoneNumber
     }
   })
   .then((user) => {
