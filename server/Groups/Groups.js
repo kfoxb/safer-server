@@ -193,6 +193,6 @@ exports.getGroupUsers = (req, res) => {
   })
   .catch(err => {
     console.error(err);
-    res.stats(400).json(err);
+    res.status(400).json(err);
   });
 };
