@@ -11,9 +11,8 @@ exports.addLabel = (req, res) => {
   })
   .then((user) => {
     user = user.get();
-    console.log('USER IN ADDLABEL: ', user);
     Labels.create({
-      userId: user.dataValues.id,
+      userId: user.id,
       label: req.body.label,
       address: req.body.address,
       lat: req.body.coordinates.lat,
