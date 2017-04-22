@@ -30,7 +30,7 @@ exports.addLabel = (req, res) => {
 exports.getAllFences = (req, res) => {
   Users.findOne({
     where: {
-      phoneNumber: req.param('id')
+      phoneNumber: req.user.phoneNumber
     }
   })
   .then((user) => {
