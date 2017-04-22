@@ -12,7 +12,7 @@
     "test": "npm start & mocha server/spec",
     "devtest": "mocha server/spec",
     "start": "node server/index.js",
-    "datainit": "mysql -u root < ./db/schema.sql && node ./db/test.js"
+    "datainit": "mysql -u root < ./db/schema.sql"
   },
   "repository": {
     "type": "git",
