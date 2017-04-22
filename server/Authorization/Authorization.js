@@ -20,8 +20,6 @@ module.exports = (req, res, next) => {
       }})
     .spread((createdUser, wasCreated) => {
       req.user = createdUser.get();
-      console.log('this is req.user', req.user);
-      console.log('this is req.body', req.body);
       next();
     })
     .catch((err) => {
