@@ -6,10 +6,12 @@ const phone = require('phone');
 exports.addLabel = (req, res) => {
   Users.findOne({
     where: {
-      phoneNumber: req.body.user
+      phoneNumber: req.user.phoneNumber
     }
   })
   .then((user) => {
+    user = user.get();
+    console.log('USER IN ADDLABEL: ', user);
     Labels.create({
       userId: user.dataValues.id,
       label: req.body.label,
