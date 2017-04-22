@@ -2,7 +2,6 @@ const Users = require('../../db/Users/Users.js');
 const Groups = require('../../db/Groups/Groups.js');
 
 module.exports = (req, res, next) => {
-  // console.log('these are headers', req.headers.authorization);
   if (req.headers.authorization === undefined || req.headers.authorization === JSON.stringify({})) {
     let errMsg = 'Error: No Authorization header in request';
     console.error(errMsg);
