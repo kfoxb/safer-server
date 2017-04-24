@@ -42,7 +42,6 @@ api.route('/user')
 api.route('/labels')
   .post(addLabel);
 
-
 api.route('/groups')
   .post(addGroup)
   .get(getGroups)
