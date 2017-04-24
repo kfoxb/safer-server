@@ -48,8 +48,9 @@ exports.getAllFences = (req, res) => {
   .catch((err) => {
     console.log('There was an error getting all fences: ', err);
     res.status(500).send();
-  })
-}
+  });
+};
+
 exports.updateUserLabel = (req, res, next) => {
   Labels.findAll({
     where: {
