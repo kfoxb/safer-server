@@ -21,7 +21,6 @@ function distanceBetweenCoordinates(lat1, lon1, lat2, lon2) {
   return earthRadiusKm * c;
 }
 
-
 exports.addLabel = (req, res) => {
   Labels.create({
     userId: req.user.id,
@@ -46,8 +45,9 @@ exports.updateUserLabel = (req, res, next) => {
     }
   })
   .then((fences) => {
+    console.log('fences in updateUserLabel: ', fences);
     for (let fence of fences) {
-      let proximity = distanceBetweenCoordinates(currentPoint.lat, currentPoint.lng, fence.lat, fence.lng);
+      let proximity = distanceBetweenCoordinates(req.body.lat, req.body.long, fence.lat, fence.lng);
       const radius = 0.5;
       if (proximity < radius) {
         req.body.currentLabel = fence.label;
