@@ -1,50 +1,63 @@
-const Users = require('../../db/Users/Users.js');
-const Contacts = require('../../db/Contacts/Contacts.js');
 const Labels = require('../../db/Labels/Labels.js');
-const phone = require('phone');
+
+function distanceBetweenCoordinates(lat1, lon1, lat2, lon2) {
+  
+  function degreesToRadians(degrees) {
+    return degrees * Math.PI / 180;
+  }
+
+  var earthRadiusKm = 6371;
+
+  var dLat = degreesToRadians(lat2-lat1);
+  var dLon = degreesToRadians(lon2-lon1);
+
+  lat1 = degreesToRadians(lat1);
+  lat2 = degreesToRadians(lat2);
+
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  return earthRadiusKm * c;
+}
+
 
 exports.addLabel = (req, res) => {
-  Users.findOne({
-    where: {
-      phoneNumber: req.user.phoneNumber
-    }
+  Labels.create({
+    userId: req.user.id,
+    label: req.body.label,
+    address: req.body.address,
+    lat: req.body.coordinates.lat,
+    lng: req.body.coordinates.lng
   })
-  .then((user) => {
-    user = user.get();
-    Labels.create({
-      userId: user.id,
-      label: req.body.label,
-      address: req.body.address,
-      lat: req.body.coordinates.lat,
-      lng: req.body.coordinates.lng
-    })
-    .then((fence) => {
-      res.status(201).json(`${req.body.label} created succesfully!`);
-    })
-    .catch((error) => {
-      console.log('errored out', error);
-      res.status(418).json('I\'m a teapot');
-    });
+  .then((fence) => {
+    res.status(201).json(`${req.body.label} created succesfully!`);
+  })
+  .catch((error) => {
+    console.log('errored out', error);
+    res.status(418).json('I\'m a teapot');
   });
 };
 
-exports.getAllFences = (req, res) => {
-  Users.findOne({
+exports.updateUserLabel = (req, res, next) => {
+  Labels.findAll({
     where: {
-      phoneNumber: req.user.phoneNumber
+      userId: req.user.id
     }
   })
-  .then((user) => {
-    Labels.findAll({
-      where: {
-        UserId: user.dataValues.id
+  .then((fences) => {
+    for (let fence of fences) {
+      let proximity = distanceBetweenCoordinates(currentPoint.lat, currentPoint.lng, fence.lat, fence.lng);
+      const radius = 0.5;
+      if (proximity < radius) {
+        req.body.currentLabel = fence.label;
+        next();
       }
-    })
-      .then((fences) => {
-        res.status(200).json(fences);
-      })
-      .catch((error) => {
-        res.status(404).json({error: error});
-      });
+    }
+    req.body.currentLabel = 'Elsewhere';
+    next();
+  })
+  .catch((error) => {
+    res.status(404).json({error: error});
   });
 };
