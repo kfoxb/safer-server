@@ -152,6 +152,9 @@ exports.updateFriend = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
+  if (req.body.phoneNumber) {
+    req.body.phoneNumber = phone(req.body.phoneNumber)[0];
+  }
   Users.update(req.body, {where: {id: req.user.id}})
   .then(() => {
     res.status(201).send();
