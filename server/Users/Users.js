@@ -151,32 +151,10 @@ exports.updateFriend = (req, res) => {
   });
 };
 
-exports.updateCoordinates = (req, res) => {
-  Users.findOne({
-    where: {
-      phoneNumber: req.user.phoneNumber
-    }
-  })
-  .then((user) => {
-    user.update({
-      currentLabel: req.body.label,
-      lat: req.body.lat,
-      long: req.body.lng
-    })
-    .then((user) => {
-      res.status(202).json({});   
-    })
-    .catch((err) => {
-      console.error('Errored out from updating coordinates: ', err);
-      res.status(404).json({error: error});
-    });
-  });
-};
-
 exports.updateUser = (req, res) => {
   Users.update(req.body, {where: {id: req.user.id}})
   .then(() => {
-    res.status(200).send();
+    res.status(201).send();
   })
   .catch((err) => {
     console.error('There was an error updating the user: ', err);
