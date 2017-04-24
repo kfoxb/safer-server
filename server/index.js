@@ -25,7 +25,7 @@ const {
   updateGroup
 } = require('./Groups/Groups.js');
 const authorization = require('./Authorization/Authorization.js');
-const {addLabel, getAllFences} = require('./Labels/Labels.js');
+const {addLabel, updateUserLabel} = require('./Labels/Labels.js');
 
 const api = express.Router();
 
@@ -34,13 +34,12 @@ app.use(bodyParser.json({extended: true}));
 api.use(authorization);
 
 api.route('/user/location')
-  .put(updateUser); // TODO: send them to label with coords, label attaches label, then updateUser
+  .put(updateUserLabel, updateUser); // TODO: send them to label with coords, label attaches label, then updateUser
 
 api.route('/user')
   .put(updateUser);
 
 api.route('/labels')
-  .get(getAllFences)
   .post(addLabel);
 
 
