@@ -1,25 +1,25 @@
 const Labels = require('../../db/Labels/Labels.js');
 
-function distanceBetweenCoordinates(lat1, lon1, lat2, lon2) {
+var distanceBetweenCoordinates = function(lat1, lon1, lat2, lon2) {
   
-  function degreesToRadians(degrees) {
+  var degreesToRadians = function(degrees) {
     return degrees * Math.PI / 180;
-  }
+  };
 
   var earthRadiusKm = 6371;
 
-  var dLat = degreesToRadians(lat2-lat1);
-  var dLon = degreesToRadians(lon2-lon1);
+  var dLat = degreesToRadians(lat2 - lat1);
+  var dLon = degreesToRadians(lon2 - lon1);
 
   lat1 = degreesToRadians(lat1);
   lat2 = degreesToRadians(lat2);
 
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2); 
 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
   return earthRadiusKm * c;
-}
+};
 
 exports.addLabel = (req, res) => {
   Labels.create({
@@ -45,7 +45,6 @@ exports.updateUserLabel = (req, res, next) => {
     }
   })
   .then((fences) => {
-    console.log('fences in updateUserLabel: ', fences);
     for (let fence of fences) {
       let proximity = distanceBetweenCoordinates(req.body.lat, req.body.long, fence.lat, fence.lng);
       const radius = 0.5;
@@ -58,6 +57,6 @@ exports.updateUserLabel = (req, res, next) => {
     next();
   })
   .catch((error) => {
-    res.status(404).json({error: error});
+    res.status(500).json({error: error});
   });
 };
