@@ -1,40 +1,66 @@
 //this block is for testing setup
-require('dotenv').config({path: './config.env'});
+console.log(process.env.PWD + '/' + '../Authorization/Authorization.js');
+process.env.CLEARDB_DATABASE_URL = 'mysql://root@localhost/saferDbTesting';
+const db = require('../../db/config.js');
 const expect = require('chai').expect;
-const stubs = require('./Stubs');
+const httpMocks = require('node-mocks-http');
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 chai.should();
 chai.use(sinonChai);
 
-//require any files containing functions that need to be tested here
+
+// require any files containing functions that need to be unit tested here
 const authorization = require('../Authorization/Authorization.js');
 
-// Conditional async testing, akin to Jasmine's waitsFor()
-// Will wait for test to be truthy before executing callback
-let waitForThen = function (test, cb) {
-  setTimeout(function() {
-    test() ? cb.apply(this) : waitForThen(test, cb);
-  }, 5);
-};
-
 describe('Authorization Middleware', function() {
+  it('Should call next when provided with a valid token', function(done) {
+    let req = httpMocks.createRequest({
+      headers: {
+        Authorization: JSON.stringify({
+          email: 'johnsmith@email.com',
+          name: 'John Smith'
+        })
+      }
+    });
+    let res = httpMocks.createResponse();
+    let next = sinon.spy();
 
+    authorization(req, res, function() {
+      next();
+      done();
+    });
+
+    next.should.have.been.called();
+    // done();
+  });
   xit('Should respond with a 401 status code when provided with an invalid token', function() {
-    let req = new stubs.request('/api/friends', 'GET');
-    let res = new stubs.response();
+    let req = httpMocks.createRequest();
+    let res = httpMocks.createResponse();
     expect(res._responseCode).to.equal(401);
     expect(res._ended).to.equal(true);
   });
-
-  xit('Should call next function passing in req and res when provided with a valid token', function() {
-    let req = new stubs.request('/api/friends', 'GET');
-    let res = new stubs.response();
-    let next = sinon.spy();
-
-    authorization(req, res, next);
-
-    next.should.have.been.calledWith(req, res);
-  });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
