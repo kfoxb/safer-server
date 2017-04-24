@@ -28,9 +28,4 @@ module.exports = (req, res, next) => {
       res.status(401).json(errMsg);
     });
   }
-  // Users.findOne({where: {id: 1}})
-  // .then((user) => {
-  //   req.user = user.get();
-  //   next();
-  // });
 };
