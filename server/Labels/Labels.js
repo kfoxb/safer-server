@@ -38,6 +38,18 @@ exports.addLabel = (req, res) => {
   });
 };
 
+exports.getAllFences = (req, res) => {
+  Labels.findAll({
+    userId: req.user.id
+  })
+  .then((fences) => {
+    res.status(200).json(fences);
+  })
+  .catch((err) => {
+    console.log('There was an error getting all fences: ', err);
+    res.status(500).send();
+  })
+}
 exports.updateUserLabel = (req, res, next) => {
   Labels.findAll({
     where: {

@@ -25,7 +25,7 @@ const {
   updateGroup
 } = require('./Groups/Groups.js');
 const authorization = require('./Authorization/Authorization.js');
-const {addLabel, updateUserLabel} = require('./Labels/Labels.js');
+const {addLabel, updateUserLabel, getAllFences} = require('./Labels/Labels.js');
 
 const api = express.Router();
 
@@ -40,6 +40,7 @@ api.route('/user')
   .put(updateUser);
 
 api.route('/labels')
+  .get(getAllFences)
   .post(addLabel);
 
 api.route('/groups')
