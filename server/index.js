@@ -8,7 +8,6 @@ const {
   addFriend,
   updateFriend,
   updatePrivacy,
-  updateCoordinates,
   getContactInformation,
   findUserWithPhoneNumber,
   updateUser
@@ -34,8 +33,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
 api.use(authorization);
 
-api.route('/users/location')
-  .put(updateCoordinates);
+api.route('/user/location')
+  .put(updateUser); // TODO: send them to label with coords, label attaches label, then updateUser
 
 api.route('/user')
   .put(updateUser);
@@ -71,8 +70,6 @@ api.route('/friends/:id')
 
 api.post('/contacts', getContactInformation);
 /******************************************/
-
-api.put('/coordinates', updateCoordinates);
 
 api.post('/subscribe', findUserWithPhoneNumber, addSubscriptionToTable);
 
