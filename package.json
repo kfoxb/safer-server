@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon server/index.js",
     "generateCoverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./server/spec/ServerSpec.js",
-    "test": "npm start & mocha server/spec",
+    "test": "mocha server/spec",
     "devtest": "mocha server/spec",
     "start": "node server/index.js",
     "datainit": "mysql -u root < ./db/schema.sql"
@@ -32,11 +32,13 @@
     "firebase-admin": "^4.2.1",
     "mongoose": "^4.9.3",
     "mysql": "^2.13.0",
+    "node-mocks-http": "1.6.1",
     "phone": "^1.0.9",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.2",
     "react-native-contacts": "^0.8.1",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "supertest": "3.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
