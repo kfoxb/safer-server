@@ -40,7 +40,7 @@ exports.addLabel = (req, res) => {
 
 exports.getAllFences = (req, res) => {
   Labels.findAll({
-    userId: req.user.id
+    where: { userId: req.user.id }
   })
   .then((fences) => {
     res.status(200).json(fences);
