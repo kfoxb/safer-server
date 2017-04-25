@@ -74,9 +74,6 @@ api.post('/subscribe', findUserWithPhoneNumber, addSubscriptionToTable);
 
 app.use('/api', api);
 
-app.get('/api/test', findUserWithPhoneNumber, addSubscriptionToTable);
-
-
 const port = process.env.PORT || 1337;
 
 app.listen(port);
