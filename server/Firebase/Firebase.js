@@ -43,6 +43,7 @@ exports.sendFriendRequest = (userName, friendToken) => {
   var payload = {
     data: {
       type: 'MEASURE_CHANGE',
+      friendRequest: true,
       'custom_notification': JSON.stringify({
         title: 'Friend Request',
         body: `${userName} has sent a friend request.`,

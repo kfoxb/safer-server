@@ -1,4 +1,5 @@
 const Labels = require('../../db/Labels/Labels.js');
+const { checkSubscriptions } = require('../Notifications/Notifications.js');
 
 var distanceBetweenCoordinates = function(lat1, lon1, lat2, lon2) {
   
@@ -62,7 +63,9 @@ exports.updateUserLabel = (req, res, next) => {
       let proximity = distanceBetweenCoordinates(req.body.lat, req.body.long, fence.lat, fence.lng);
       const radius = 0.5;
       if (proximity < radius) {
+        var oldLabel = req.user.currentLabel;
         req.body.currentLabel = fence.label;
+        checkSubscriptions(req.user.id, oldLabel, fence.label);
         next();
       }
     }
