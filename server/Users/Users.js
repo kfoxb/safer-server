@@ -6,26 +6,32 @@ const { sendFriendRequest } = require('../Firebase/Firebase.js');
 const phone = require('phone');
 
 exports.addFriend = (req, res) => {
-  //See if there is a pending friendship (search for the reverse relationship - friend - user)
-  Contacts.find({ where: {userId: req.friend.id, friendId: req.user.id} })
+  Contacts.find({ where: {userId: req.user.id, friendId: req.friend.id} })
   .then((friendship) => {
-    if (friendship !== null) {
+    var privacy = friendship.get().privacy;
+    if (privacy === 'request') {
       throw friendship;
     }
-    return sendFriendRequest(`${req.user.first} ${req.user.last}`, req.friend.FCMToken);
+    return sendFriendRequest(req.user, req.friend.FCMToken);
   })
   .then((response) => {
     // TODO: only update the db after confirming that the notification has been sent (no errors)
-    console.log('response after sending notification: ', response);
-    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'pending'});
+    console.log('response after sending notification: ', response.successCount, (response.successCount === 1));
+    return Contacts.bulkCreate([
+      {userId: req.user.id, friendId: req.friend.id, privacy: 'pending'},
+      {userId: req.friend.id, friendId: req.user.id, privacy: 'request'}
+    ]);
   })
   .error((err) => {
     console.error('There was an error sending a friend request or adding a pending friend: ', err);
     res.status(500).send();
   })
   .catch((friendship) => {
-    friendship.update({privacy: 'label'}); //TODO: error handling
-    return Contacts.create({userId: req.user.id, friendId: req.friend.id, privacy: 'label'});
+    return friendship.update({privacy: 'label'}); //TODO: error handling
+  }).then(() => {
+    return Contacts.find({userId: req.friend.id, friendId: req.user.id, privacy: 'label'});
+  }).then((friendship) => {
+    return friendship.update({privacy: 'label'});
   })
   .then((createdFriendship) => {
     res.status(201).send();
@@ -36,11 +42,7 @@ exports.addFriend = (req, res) => {
   });
 };
 
-
-// TODO: Second half
-//http://www.datchley.name/promise-patterns-anti-patterns/
 exports.getAllFriendData = (req, res, next) => {
-  // Assuming middle ware is doing work before to find the UserId in Database;
   let query = {
     where: {
       userId: req.user.id
