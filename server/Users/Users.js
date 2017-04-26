@@ -8,8 +8,7 @@ const phone = require('phone');
 exports.addFriend = (req, res) => {
   Contacts.find({ where: {userId: req.user.id, friendId: req.friend.id} })
   .then((friendship) => {
-    var privacy = friendship.get().privacy;
-    if (privacy === 'request') {
+    if (friendship !== null) {
       throw friendship;
     }
     return sendFriendRequest(req.user, req.friend.FCMToken);
@@ -23,13 +22,13 @@ exports.addFriend = (req, res) => {
     ]);
   })
   .error((err) => {
-    console.error('There was an error sending a friend request or adding a pending friend: ', err);
+    console.error('There was an error sending a friend request: ', err);
     res.status(500).send();
   })
   .catch((friendship) => {
     return friendship.update({privacy: 'label'}); //TODO: error handling
-  }).then(() => {
-    return Contacts.find({userId: req.friend.id, friendId: req.user.id, privacy: 'label'});
+  }).then((updated) => {
+    return Contacts.find({where: {userId: req.friend.id, friendId: req.user.id}});
   }).then((friendship) => {
     return friendship.update({privacy: 'label'});
   })
@@ -37,7 +36,7 @@ exports.addFriend = (req, res) => {
     res.status(201).send();
   })
   .error((err) => {
-    console.log('there was an error in creating a mutual friendship: ', err);
+    console.log('There was an error in creating a mutual friendship: ', err);
     res.status(500).send();
   });
 };
