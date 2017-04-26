@@ -20,7 +20,6 @@ exports.addSubscriptionToTable = (req, res) => {
   });
 };
 
-//TODO: use this each time a location is updated for a user
 exports.checkSubscriptions = (userId, oldLabel, newLabel) => {
   if (oldLabel === 'Home' || newLabel !== 'Home') { return; }
   if (newLabel === 'Home') {
