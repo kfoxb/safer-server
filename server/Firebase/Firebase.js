@@ -39,14 +39,14 @@ exports.sendNotifications = (pubId, tokenArray) => {
   });
 };
 
-exports.sendFriendRequest = (userName, friendToken) => {
+exports.sendFriendRequest = (user, friendToken) => {
   var payload = {
     data: {
       type: 'MEASURE_CHANGE',
-      friendRequest: true,
+      friendRequest: 'true',
       'custom_notification': JSON.stringify({
         title: 'Friend Request',
-        body: `${userName} has sent a friend request.`,
+        body: `${user.first} ${user.last} has sent a friend request.`,
         sound: 'default',
       })
     }
