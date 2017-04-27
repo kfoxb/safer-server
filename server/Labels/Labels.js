@@ -31,7 +31,6 @@ exports.addLabel = (req, res) => {
       label: req.body.label,
     }})
     .then((fence) => {
-      console.log(fence);
       return Labels.update({
         address: req.body.address,
         lat: req.body.coordinates.lat,
