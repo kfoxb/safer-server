@@ -166,6 +166,10 @@ exports.updateUser = (req, res) => {
   });
 };
 
+exports.getUserInfo = (req, res) => {
+  res.status(200).json(req.user);
+}
+
 exports.findUserWithPhoneNumber = (req, res, next) => {
   Users.findOne({ 
     where: { phoneNumber: phone(req.body.phoneNumber)[0] },

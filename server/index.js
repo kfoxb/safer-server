@@ -10,7 +10,8 @@ const {
   updatePrivacy,
   getContactInformation,
   findUserWithPhoneNumber,
-  updateUser
+  updateUser,
+  getUserInfo
 } = require('./Users/Users.js');
 
 const { updateFCMToken } = require('./Firebase/Firebase.js');
@@ -37,6 +38,7 @@ api.route('/user/location')
   .put(updateUserLabel, updateUser); // TODO: send them to label with coords, label attaches label, then updateUser
 
 api.route('/user')
+  .get(getUserInfo)
   .put(updateUser);
 
 api.route('/labels')
