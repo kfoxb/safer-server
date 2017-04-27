@@ -23,18 +23,20 @@ let user1 = {
     .put('/api/user')
     .set(...this.headers)
     .send({phoneNumber: '8017564738'})
-    .end(function(err, res) {
-      console.log('this is response', res);
-    });
+    .end(function(err, res) {});
   }
 };
 
 describe('Sign up process', function() {
-  // afterEach(function() {
-  //   //truncate table
-  //   Users.truncate();
-  // });
-  xit('should create an account when given a new email address', function(done) {
+  before(function() {
+    //clear database of any existing data from development
+    Users.truncate();
+  });
+  afterEach(function() {
+    //clear database of anything inserted from test
+    Users.truncate();
+  });
+  it('should create an account when given a new email address', function(done) {
     request(app)
     .put('/api/user')
     .set(...user1.headers)
@@ -45,7 +47,7 @@ describe('Sign up process', function() {
       done();
     });
   });
-  xit('should create an account when given the longest email address possible (254 characters)', function(done) {
+  it('should create an account when given the longest email address possible (254 characters)', function(done) {
     request(app)
     .put('/api/user')
     .set('Authorization', JSON.stringify({
@@ -71,7 +73,7 @@ describe('Sign up process', function() {
       done();
     });
   });
-  xit('should create an account if that account doesn\'t already exists', function(done) {
+  it('should create an account if that account doesn\'t already exists', function(done) {
     request(app)
     .put('/api/user')
     .set('Authorization', JSON.stringify({
@@ -85,7 +87,7 @@ describe('Sign up process', function() {
       done();
     });
   });
-  xit('should respond with an error if no Authorization header is present', function(done) {
+  it('should respond with an error if no Authorization header is present', function(done) {
     request(app)
     .put('/api/user')
     .end(function(err, res) {
@@ -93,7 +95,7 @@ describe('Sign up process', function() {
       done();
     });
   });
-  xit('should respond with an error if the Authorization header is an empty object', function(done) {
+  it('should respond with an error if the Authorization header is an empty object', function(done) {
     request(app)
     .put('/api/user')
     .set('Authorization', JSON.stringify({}))
@@ -107,7 +109,7 @@ describe('Sign up process', function() {
 describe('Posting fences to the users', function () {
   xit('Should post a fence to the database', function(done) {
   });
-  xit('Should not set a fence if the address is blank', function(done) {
+  it('Should not set a fence if the address is blank', function(done) {
     request(app)
     .post('/api/labels')
     .set('Authorization', JSON.stringify({
@@ -124,7 +126,7 @@ describe('Posting fences to the users', function () {
       done();
     });
   });
-  xit('Should not set a fence for an invalid location', function (done) {
+  it('Should not set a fence for an invalid location', function (done) {
     request(app)
     .post('/api/labels')
     .set('Authorization', JSON.stringify({
@@ -139,7 +141,7 @@ describe('Posting fences to the users', function () {
       done();
     });
   });
-  xit('Should set a fence for a valid location', function (done) {
+  it('Should set a fence for a valid location', function (done) {
     request(app)
     .post('/api/labels')
     .set('Authorization', JSON.stringify({
