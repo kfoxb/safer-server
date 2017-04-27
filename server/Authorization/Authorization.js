@@ -1,4 +1,5 @@
 const Users = require('../../db/Users/Users.js');
+const Groups = require('../../db/Groups/Groups.js');
 
 module.exports = (req, res, next) => {
   // console.log('these are headers', req.headers.authorization);
@@ -17,10 +18,18 @@ module.exports = (req, res, next) => {
         phoneNumber: `+1${userProfile.phoneNumber}`,
         last: lastName,
         email: email
-      }})
+      }
+    })
     .spread((createdUser, wasCreated) => {
       req.user = createdUser.get();
       req.user.created = wasCreated;
+      if (wasCreated) {
+        Groups.create({
+          userId: req.user.id,
+          name: 'FAVORITES',
+          privacy: 'label'
+        });
+      }
       next();
     })
     .catch((err) => {
