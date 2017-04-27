@@ -23,7 +23,6 @@ var distanceBetweenCoordinates = function(lat1, lon1, lat2, lon2) {
 };
 
 exports.addLabel = (req, res) => {
-  console.log('Label model got called! This is the request body', req.body);
   if (!req.body.coordinates) {
     res.status(418).json('I\'m a teapot');
   } else {
