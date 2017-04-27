@@ -12,7 +12,7 @@ const Contacts = require('../../db/Contacts/Contacts.js');
 const GroupMembers = require('../../db/GroupMembers/GroupMembers.js');
 const Groups = require('../../db/Groups/Groups.js');
 const Labels = require('../../db/Labels/Labels.js');
-const Notifcations = require('../../db/Notifcations/Notifcations.js');
+const Notifications = require('../../db/Notifications/Notifications.js');
 const Users = require('../../db/Users/Users.js');
 
 let user1 = {
@@ -33,10 +33,10 @@ let user1 = {
 
 const clearDb = function() {
   Contacts.truncate();
-  GroupMembersrs.truncate();
+  GroupMembers.truncate();
   Groups.truncate();
   Labels.truncate();
-  Notifcations.truncate();
+  Notifications.truncate();
   Users.truncate();
 };
 
