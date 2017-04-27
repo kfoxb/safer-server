@@ -8,6 +8,11 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 chai.should();
 chai.use(sinonChai);
+const Contacts = require('../../db/Contacts/Contacts.js');
+const GroupMembers = require('../../db/GroupMembers/GroupMembers.js');
+const Groups = require('../../db/Groups/Groups.js');
+const Labels = require('../../db/Labels/Labels.js');
+const Notifcations = require('../../db/Notifcations/Notifcations.js');
 const Users = require('../../db/Users/Users.js');
 
 let user1 = {
@@ -17,7 +22,6 @@ let user1 = {
       email: 'johnsmith@email.com',
       name: 'John Smith'
     })],
-  phoneNumber: '8017564738',
   create: function() {
     request(app)
     .put('/api/user')
@@ -27,14 +31,21 @@ let user1 = {
   }
 };
 
+const clearDb = function() {
+  Contacts.truncate();
+  GroupMembersrs.truncate();
+  Groups.truncate();
+  Labels.truncate();
+  Notifcations.truncate();
+  Users.truncate();
+};
+
 describe('Sign up process', function() {
   before(function() {
-    //clear database of any existing data from development
-    Users.truncate();
+    clearDb();
   });
   afterEach(function() {
-    //clear database of anything inserted from test
-    Users.truncate();
+    clearDb();
   });
   it('should create an account when given a new email address', function(done) {
     request(app)
@@ -73,20 +84,6 @@ describe('Sign up process', function() {
       done();
     });
   });
-  it('should create an account if that account doesn\'t already exists', function(done) {
-    request(app)
-    .put('/api/user')
-    .set('Authorization', JSON.stringify({
-      email: 'decaf@coffee.jquery.com',
-      name: 'Mocha Chaierson'
-    }))
-    .send({phoneNumber: '8016948343'})
-    .end(function(err, res) {
-      expect(res.statusCode).to.equal(201);
-      expect(res.body.created).to.equal(true);
-      done();
-    });
-  });
   it('should respond with an error if no Authorization header is present', function(done) {
     request(app)
     .put('/api/user')
@@ -107,6 +104,12 @@ describe('Sign up process', function() {
 });
 
 describe('Posting fences to the users', function () {
+  before(function() {
+    clearDb();
+  });
+  afterEach(function() {
+    clearDb();
+  });
   xit('Should post a fence to the database', function(done) {
   });
   it('Should not set a fence if the address is blank', function(done) {
@@ -164,6 +167,12 @@ describe('Posting fences to the users', function () {
 });
 
 describe('Getting all of the user\'s fences', function () {
+  before(function() {
+    clearDb();
+  });
+  afterEach(function() {
+    clearDb();
+  });
   xit('Should return an empty array when the user has no fences', function(done) {
     expect(res.statusCode).to.equal(201);
     expect(res.body).to.deep.equal([]);
@@ -187,12 +196,19 @@ describe('Getting all of the user\'s fences', function () {
 });
 
 describe('Updating a user\'s information', function() {
-  // xbeforeEach(function() {});
-  // xafterEach(function() {});
+  before(function() {
+    clearDb();
+  });
+  beforeEach(function() {
+    user1.create();
+  });
+  afterEach(function() {
+    clearDb();
+  });
   xit('', function(done) {
     request(app)
-    .put()
-    .set()
+    .put({})
+    .set(...user1.headers)
     .send({})
     .end(function (err, res) {
       done();
