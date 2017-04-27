@@ -4,27 +4,48 @@ const app = require('../index.js');
 const request = require('supertest');
 const chai = require('chai');
 const expect = require('chai').expect;
-// const httpMocks = require('node-mocks-http');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 chai.should();
 chai.use(sinonChai);
+const Users = require('../../db/Users/Users.js');
 
-describe('Sign up process', function() {
-  it('should create an account when given a new email address', function(done) {
-    request(app)
-    .put('/api/user')
-    .set('Authorization', JSON.stringify({
+let user1 = {
+  headers: [
+    'Authorization',
+    JSON.stringify({
       email: 'johnsmith@email.com',
       name: 'John Smith'
-    }))
+    })],
+  phoneNumber: '8017564738',
+  create: function() {
+    request(app)
+    .put('/api/user')
+    .set(...this.headers)
+    .send({phoneNumber: '8017564738'})
+    .end(function(err, res) {
+      console.log('this is response', res);
+    });
+  }
+};
+
+describe('Sign up process', function() {
+  // afterEach(function() {
+  //   //truncate table
+  //   Users.truncate();
+  // });
+  xit('should create an account when given a new email address', function(done) {
+    request(app)
+    .put('/api/user')
+    .set(...user1.headers)
     .send({phoneNumber: '8017564738'})
     .end(function(err, res) {
       expect(res.statusCode).to.equal(201);
+      expect(res.body.created).to.equal(true);
       done();
     });
   });
-  it('should create an account when given the longest email address possible (254 characters)', function(done) {
+  xit('should create an account when given the longest email address possible (254 characters)', function(done) {
     request(app)
     .put('/api/user')
     .set('Authorization', JSON.stringify({
@@ -34,23 +55,23 @@ describe('Sign up process', function() {
     .send({phoneNumber: '8017348203'})
     .end(function(err, res) {
       expect(res.statusCode).to.equal(201);
+      expect(res.body.created).to.equal(true);
       done();
     });
   });
   it('should not create an account if that account already exists', function(done) {
+    user1.create();
     request(app)
     .put('/api/user')
-    .set('Authorization', JSON.stringify({
-      email: 'kURNNuQSfJBzwDQWboVwsZv9rxW4RJDMK1b5j2eRrREy2WYcXeyDKrr4zumfEp7Hyi1HQ8FenjexsDvzwWPvgnBsUNWeu69T4n6FmipfCbzbtqG3xnEoN7lLkpY33nWUijvLHGunaOGNzmIgo31FwK4hZXtAArzKkJprhAT1pDKKCTFFYXclxI59H8raGsZkW190lbzrQkNm6WquwBTtayjFCcNFBxCwMfv5zikFMaQNhml0GFqo@email.com',
-      name: 'Tester McTestFace'
-    }))
-    .send({phoneNumber: '8017348203'})
+    .set(...user1.headers)
+    .send({phoneNumber: '8017564738'})
     .end(function(err, res) {
+      expect(res.statusCode).to.equal(201);
       expect(res.body.created).to.equal(false);
       done();
     });
   });
-  it('should create an account if that account doesn\'t already exists', function(done) {
+  xit('should create an account if that account doesn\'t already exists', function(done) {
     request(app)
     .put('/api/user')
     .set('Authorization', JSON.stringify({
@@ -59,11 +80,12 @@ describe('Sign up process', function() {
     }))
     .send({phoneNumber: '8016948343'})
     .end(function(err, res) {
+      expect(res.statusCode).to.equal(201);
       expect(res.body.created).to.equal(true);
       done();
     });
   });
-  it('should respond with an error if no Authorization header is present', function(done) {
+  xit('should respond with an error if no Authorization header is present', function(done) {
     request(app)
     .put('/api/user')
     .end(function(err, res) {
@@ -71,7 +93,7 @@ describe('Sign up process', function() {
       done();
     });
   });
-  it('should respond with an error if the Authorization header is an empty object', function(done) {
+  xit('should respond with an error if the Authorization header is an empty object', function(done) {
     request(app)
     .put('/api/user')
     .set('Authorization', JSON.stringify({}))
@@ -81,10 +103,11 @@ describe('Sign up process', function() {
     });
   });
 });
+
 describe('Posting fences to the users', function () {
   xit('Should post a fence to the database', function(done) {
   });
-  it('Should not set a fence if the address is blank', function(done) {
+  xit('Should not set a fence if the address is blank', function(done) {
     request(app)
     .post('/api/labels')
     .set('Authorization', JSON.stringify({
@@ -101,7 +124,7 @@ describe('Posting fences to the users', function () {
       done();
     });
   });
-  it('Should not set a fence for an invalid location', function (done) {
+  xit('Should not set a fence for an invalid location', function (done) {
     request(app)
     .post('/api/labels')
     .set('Authorization', JSON.stringify({
@@ -116,7 +139,7 @@ describe('Posting fences to the users', function () {
       done();
     });
   });
-  it('Should set a fence for a valid location', function (done) {
+  xit('Should set a fence for a valid location', function (done) {
     request(app)
     .post('/api/labels')
     .set('Authorization', JSON.stringify({
@@ -137,6 +160,7 @@ describe('Posting fences to the users', function () {
     });
   });
 });
+
 describe('Getting all of the user\'s fences', function () {
   xit('Should return an empty array when the user has no fences', function(done) {
     expect(res.statusCode).to.equal(201);
@@ -157,5 +181,19 @@ describe('Getting all of the user\'s fences', function () {
     expect(res.statusCode).to.equal(201);
     //expect(res.body).to.deep.equal(fence)
     done();
+  });
+});
+
+describe('Updating a user\'s information', function() {
+  // xbeforeEach(function() {});
+  // xafterEach(function() {});
+  xit('', function(done) {
+    request(app)
+    .put()
+    .set()
+    .send({})
+    .end(function (err, res) {
+      done();
+    });
   });
 });
