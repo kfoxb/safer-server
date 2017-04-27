@@ -26,14 +26,19 @@ exports.addLabel = (req, res) => {
   if (!req.body.coordinates) {
     res.status(418).json('I\'m a teapot');
   } else {
-    Labels.create({
+    return Labels.findOrCreate({where: {
       userId: req.user.id,
       label: req.body.label,
-      address: req.body.address,
-      lat: req.body.coordinates.lat,
-      lng: req.body.coordinates.lng
-    })
+    }})
     .then((fence) => {
+      console.log(fence);
+      return Labels.update({
+        address: req.body.address,
+        lat: req.body.coordinates.lat,
+        lng: req.body.coordinates.lng
+      }, {where: {userId: req.user.id, label: req.body.label}});
+    })
+    .then(() => {
       res.status(201).json(`${req.body.label} created succesfully!`);
     })
     .catch((error) => {
