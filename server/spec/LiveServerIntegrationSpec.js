@@ -23,29 +23,40 @@ let user1 = {
       name: 'John Smith'
     })],
   create: function() {
-    request(app)
-    .put('/api/user')
-    .set(...this.headers)
-    .send({phoneNumber: '8017564738'})
-    .end(function(err, res) {});
+    return new Promise((resolve, reject) => {
+      request(app)
+      .put('/api/user')
+      .set(...this.headers)
+      .send({phoneNumber: '8017564738'})
+      .end(function(err, res) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    });
   }
 };
 
-const clearDb = function() {
-  Contacts.truncate();
-  GroupMembers.truncate();
-  Groups.truncate();
-  Labels.truncate();
-  Notifications.truncate();
-  Users.truncate();
+const clearDb = function(done) {
+  let truncatedTables = [
+    Contacts.truncate(),
+    GroupMembers.truncate(),
+    Groups.truncate(),
+    Labels.truncate(),
+    Notifications.truncate(),
+    Users.truncate()
+  ];
+  Promise.all(truncatedTables).then(done());
 };
 
 describe('Sign up process', function() {
-  before(function() {
-    clearDb();
+  before(function(done) {
+    clearDb(done);
   });
-  afterEach(function() {
-    clearDb();
+  afterEach(function(done) {
+    clearDb(done);
   });
   it('should create an account when given a new email address', function(done) {
     request(app)
@@ -73,15 +84,17 @@ describe('Sign up process', function() {
     });
   });
   it('should not create an account if that account already exists', function(done) {
-    user1.create();
-    request(app)
-    .put('/api/user')
-    .set(...user1.headers)
-    .send({phoneNumber: '8017564738'})
-    .end(function(err, res) {
-      expect(res.statusCode).to.equal(201);
-      expect(res.body.created).to.equal(false);
-      done();
+    user1.create()
+    .then(() => {
+      request(app)
+      .put('/api/user')
+      .set(...user1.headers)
+      .send({phoneNumber: '8017564738'})
+      .end(function(err, res) {
+        expect(res.statusCode).to.equal(201);
+        expect(res.body.created).to.equal(false);
+        done();
+      });
     });
   });
   it('should respond with an error if no Authorization header is present', function(done) {
@@ -104,11 +117,11 @@ describe('Sign up process', function() {
 });
 
 describe('Posting fences to the users', function () {
-  before(function() {
-    clearDb();
+  before(function(done) {
+    clearDb(done);
   });
-  afterEach(function() {
-    clearDb();
+  afterEach(function(done) {
+    clearDb(done);
   });
   xit('Should post a fence to the database', function(done) {
   });
@@ -167,11 +180,11 @@ describe('Posting fences to the users', function () {
 });
 
 describe('Getting all of the user\'s fences', function () {
-  before(function() {
-    clearDb();
+  before(function(done) {
+    clearDb(done);
   });
-  afterEach(function() {
-    clearDb();
+  afterEach(function(done) {
+    clearDb(done);
   });
   xit('Should return an empty array when the user has no fences', function(done) {
     expect(res.statusCode).to.equal(201);
@@ -196,14 +209,14 @@ describe('Getting all of the user\'s fences', function () {
 });
 
 describe('Updating a user\'s information', function() {
-  before(function() {
-    clearDb();
+  before(function(done) {
+    clearDb(done);
   });
   beforeEach(function() {
     user1.create();
   });
-  afterEach(function() {
-    clearDb();
+  afterEach(function(done) {
+    clearDb(done);
   });
   xit('', function(done) {
     request(app)
