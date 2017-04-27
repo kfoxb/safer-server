@@ -81,3 +81,81 @@ describe('Sign up process', function() {
     });
   });
 });
+describe('Posting fences to the users', function () {
+  xit('Should post a fence to the database', function(done) {
+  });
+  it('Should not set a fence if the address is blank', function(done) {
+    request(app)
+    .post('/api/labels')
+    .set('Authorization', JSON.stringify({
+      email: 'decaf@coffee.jquery.com',
+      name: 'Mocha Chaierson'
+    }))
+    .send({
+      coordinates: '',
+      address: '',
+      label: 'School'
+    })
+    .end(function (err, res) {
+      expect(res.statusCode).to.equal(418);
+      done();
+    });
+  });
+  it('Should not set a fence for an invalid location', function (done) {
+    request(app)
+    .post('/api/labels')
+    .set('Authorization', JSON.stringify({
+      email: 'decaf@coffee.jquery.com',
+      name: 'Mocha Chaierson'
+    }))
+    .send({
+      label: 'Bar'
+    })
+    .end(function (err, res) {
+      expect(res.statusCode).to.equal(418);
+      done();
+    });
+  });
+  it('Should set a fence for a valid location', function (done) {
+    request(app)
+    .post('/api/labels')
+    .set('Authorization', JSON.stringify({
+      email: 'decaf@coffee.jquery.com',
+      name: 'Mocha Chaierson',
+    }))
+    .send({
+      coordinates: {
+        lat: 10.041167,
+        lng: -69.251438
+      },
+      address: 'Urb. Valle Hondo, Cabudare, Lara, Venezuela',
+      label: 'Home'
+    })
+    .end(function (err, res) {
+      expect(res.statusCode).to.equal(201);
+      done();
+    });
+  });
+});
+describe('Getting all of the user\'s fences', function () {
+  xit('Should return an empty array when the user has no fences', function(done) {
+    expect(res.statusCode).to.equal(201);
+    expect(res.body).to.deep.equal([]);
+    done();
+  });
+  xit('Should return a fence when the user has only one fence', function(done) {
+    expect(res.statusCode).to.equal(201);
+    done();
+    //expect(res.body).to.deep.equal(fence)
+  });
+  xit('Should return an array of fences if the user has them', function(done) {
+    expect(res.statusCode).to.equal(201);
+    //expect(res.body).to.deep.equal(fence)
+    done();
+  });
+  xit('Should return a high number of fences if the users has them', function (done) {
+    expect(res.statusCode).to.equal(201);
+    //expect(res.body).to.deep.equal(fence)
+    done();
+  });
+});

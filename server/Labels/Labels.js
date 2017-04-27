@@ -23,20 +23,25 @@ var distanceBetweenCoordinates = function(lat1, lon1, lat2, lon2) {
 };
 
 exports.addLabel = (req, res) => {
-  Labels.create({
-    userId: req.user.id,
-    label: req.body.label,
-    address: req.body.address,
-    lat: req.body.coordinates.lat,
-    lng: req.body.coordinates.lng
-  })
-  .then((fence) => {
-    res.status(201).json(`${req.body.label} created succesfully!`);
-  })
-  .catch((error) => {
-    console.log('errored out', error);
+  console.log('Label model got called! This is the request body', req.body);
+  if (!req.body.coordinates) {
     res.status(418).json('I\'m a teapot');
-  });
+  } else {
+    Labels.create({
+      userId: req.user.id,
+      label: req.body.label,
+      address: req.body.address,
+      lat: req.body.coordinates.lat,
+      lng: req.body.coordinates.lng
+    })
+    .then((fence) => {
+      res.status(201).json(`${req.body.label} created succesfully!`);
+    })
+    .catch((error) => {
+      console.log('errored out', error);
+      res.status(418).json('I\'m a teapot');
+    });
+  }
 };
 
 exports.getAllFences = (req, res) => {
