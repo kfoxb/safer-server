@@ -20,6 +20,7 @@ module.exports = (req, res, next) => {
       }})
     .spread((createdUser, wasCreated) => {
       req.user = createdUser.get();
+      req.user.created = wasCreated;
       next();
     })
     .catch((err) => {

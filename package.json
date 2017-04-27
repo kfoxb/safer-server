@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon server/index.js",
     "generateCoverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./server/spec/ServerSpec.js",
-    "test": "mysql -u root < ./server/spec/testschema.sql && mocha server/spec",
+    "test": "npm run datainit && mocha server/spec",
     "devtest": "mocha server/spec",
     "start": "node server/index.js",
     "datainit": "mysql -u root < ./db/schema.sql"

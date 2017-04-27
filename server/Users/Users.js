@@ -158,7 +158,7 @@ exports.updateUser = (req, res) => {
   }
   Users.update(req.body, {where: {id: req.user.id}})
   .then(() => {
-    res.status(201).send();
+    res.status(201).json(req.user);
   })
   .catch((err) => {
     console.error('There was an error updating the user: ', err);
