@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 const Users = require('../../db/Users/Users.js');
-const serverKey = process.env.FCM_SERVER_KEY;
+// const serverKey = process.env.FCM_SERVER_KEY;
 
 var admin = require('firebase-admin');
 
