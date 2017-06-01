@@ -25,13 +25,16 @@ const {
   updateGroupUsers,
   updateGroup
 } = require('./Groups/Groups.js');
-const authorization = require('./Authorization/Authorization.js');
+const {authorization, authentication} = require('./Authentication/Authentication.js');
 const {addLabel, updateUserLabel, getAllFences} = require('./Labels/Labels.js');
 
 const api = express.Router();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({extended: true}));
+
+api.post('/signin', authentication);
+
 api.use(authorization);
 
 api.route('/user/location')
