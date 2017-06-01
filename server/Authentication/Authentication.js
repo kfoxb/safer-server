@@ -1,7 +1,8 @@
 const Users = require('../../db/Users/Users.js');
 const Groups = require('../../db/Groups/Groups.js');
+const GoogleAuth = require('google-auth-library');
 
-module.exports = (req, res, next) => {
+exports.authorization = (req, res, next) => {
   if (req.headers.authorization === undefined || req.headers.authorization === JSON.stringify({})) {
     let errMsg = 'Error: No Authorization header in request';
     console.error(errMsg);
@@ -14,7 +15,7 @@ module.exports = (req, res, next) => {
     Users.findOrCreate({where: {email: email},
       defaults: {
         first: firstName,
-        phoneNumber: `+1${userProfile.phoneNumber}`,
+        // phoneNumber: `+1${userProfile.phoneNumber}`,
         last: lastName,
         email: email
       }
@@ -37,4 +38,20 @@ module.exports = (req, res, next) => {
       res.status(401).json(errMsg);
     });
   }
+};
+
+exports.authentication = (req, res) => {
+  console.log('this is req.body', req.body);
+  let token = req.body;
+  let CLIENT_ID = process.env.GOOGLE_AUTH_WEB_CLIENT_ID;
+  let auth = new GoogleAuth;
+  let client = new auth.OAuth2(CLIENT_ID, '', '');
+  client.verifyIdToken(
+    token,
+    CLIENT_ID,
+    function(e, login) {
+      let payload = login.getPayload();
+      let userid = payload['sub'];
+    }
+  );
 };
