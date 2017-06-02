@@ -15,7 +15,6 @@ exports.authorization = (req, res, next) => {
     Users.findOrCreate({where: {email: email},
       defaults: {
         first: firstName,
-        // phoneNumber: `+1${userProfile.phoneNumber}`,
         last: lastName,
         email: email
       }
@@ -40,18 +39,31 @@ exports.authorization = (req, res, next) => {
   }
 };
 
-exports.authentication = (req, res) => {
-  console.log('this is req.body', req.body);
-  let token = req.body;
+const validateToken = (token) => {
   let CLIENT_ID = process.env.GOOGLE_AUTH_WEB_CLIENT_ID;
   let auth = new GoogleAuth;
   let client = new auth.OAuth2(CLIENT_ID, '', '');
-  client.verifyIdToken(
-    token,
-    CLIENT_ID,
-    function(e, login) {
-      let payload = login.getPayload();
-      let userid = payload['sub'];
-    }
-  );
+  return new Promise((resolve, reject) => {
+    client.verifyIdToken(token, CLIENT_ID,
+      function(e, login) {
+        if (e) {
+          reject(e);
+        } else {
+          let payload = login.getPayload();
+          let email = payload['email'];
+          resolve(email);
+        }
+      }
+    );
+  });
+};
+
+exports.authentication = (req, res) => {
+  validateToken(req.body.token)
+  .then((email) => {
+    console.log('this is email', email);
+  })
+  .catch((err) => {
+    console.log('there was an error:', err);
+  });
 };
