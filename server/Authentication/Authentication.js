@@ -1,6 +1,8 @@
 const Users = require('../../db/Users/Users.js');
 const Groups = require('../../db/Groups/Groups.js');
 const GoogleAuth = require('google-auth-library');
+const Promise = require('bluebird');
+const jwt = require('jsonwebtoken');
 
 const validateToken = (token) => {
   let CLIENT_ID = process.env.GOOGLE_AUTH_WEB_CLIENT_ID;
@@ -64,10 +66,44 @@ exports.authorization = (req, res, next) => {
 
 exports.authentication = (req, res) => {
   validateToken(req.body.token)
-  .then((email) => {
-    console.log('this is email', email);
+  .then((user) => {
+    return Users.findOrCreate({where: {email: user.email},
+      defaults: {
+        first: user.firstName,
+        last: user.lastName,
+        email: user.email
+      }
+    });
+  })
+  .spread((createdUser, wasCreated) => {
+    //get user information from createdUser
+    //Use information to generate JWT to send back to client
+    let user = createdUser.get();
+    user.created = wasCreated;
+
+    if (wasCreated) {
+      Groups.create({
+        userId: user.id,
+        name: 'FAVORITES',
+        privacy: 'label'
+      });
+    }
+
+    let payload = {
+      email: user.email
+    };
+    let jwtOptions = {
+      expiresIn: '30s'
+    };
+    //send back JWT and wasCreated value to client
+    return jwt.sign(payload, key, jwtOptions);
+  })
+  .then((token) => {
+    console.log('this is token', token);
+    res.status(200).json(token);
   })
   .catch((err) => {
+    //send error message back to client here
     console.log('there was an error:', err);
   });
 };
