@@ -92,6 +92,7 @@ exports.authentication = (req, res) => {
     let payload = {
       email: user.email
     };
+    let key = process.env.JWT_KEY;
     let jwtOptions = {
       expiresIn: '30s'
     };
