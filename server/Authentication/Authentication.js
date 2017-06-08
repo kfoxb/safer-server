@@ -2,6 +2,29 @@ const Users = require('../../db/Users/Users.js');
 const Groups = require('../../db/Groups/Groups.js');
 const GoogleAuth = require('google-auth-library');
 
+const validateToken = (token) => {
+  let CLIENT_ID = process.env.GOOGLE_AUTH_WEB_CLIENT_ID;
+  let auth = new GoogleAuth;
+  let client = new auth.OAuth2(CLIENT_ID, '', '');
+  return new Promise((resolve, reject) => {
+    client.verifyIdToken(token, CLIENT_ID,
+      function(e, login) {
+        if (e) {
+          reject(e);
+        } else {
+          let payload = login.getPayload();
+          let user = {};
+          user.email = payload['email'];
+          let fullName = payload['name'];
+          user.firstName = fullName.slice(0, fullName.indexOf(' '));
+          user.lastName = fullName.slice(fullName.indexOf(' ') + 1);
+          resolve(user);
+        }
+      }
+    );
+  });
+};
+
 exports.authorization = (req, res, next) => {
   if (req.headers.authorization === undefined || req.headers.authorization === JSON.stringify({})) {
     let errMsg = 'Error: No Authorization header in request';
@@ -37,29 +60,6 @@ exports.authorization = (req, res, next) => {
       res.status(401).json(errMsg);
     });
   }
-};
-
-const validateToken = (token) => {
-  let CLIENT_ID = process.env.GOOGLE_AUTH_WEB_CLIENT_ID;
-  let auth = new GoogleAuth;
-  let client = new auth.OAuth2(CLIENT_ID, '', '');
-  return new Promise((resolve, reject) => {
-    client.verifyIdToken(token, CLIENT_ID,
-      function(e, login) {
-        if (e) {
-          reject(e);
-        } else {
-          let payload = login.getPayload();
-          let user = {};
-          user.email = payload['email'];
-          let fullName = payload['name'];
-          user.firstName = fullName.slice(0, fullName.indexOf(' '));
-          user.lastName = fullName.slice(fullName.indexOf(' ') + 1);
-          resolve(user);
-        }
-      }
-    );
-  });
 };
 
 exports.authentication = (req, res) => {
