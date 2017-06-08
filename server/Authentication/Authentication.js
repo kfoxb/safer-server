@@ -50,8 +50,12 @@ const validateToken = (token) => {
           reject(e);
         } else {
           let payload = login.getPayload();
-          let email = payload['email'];
-          resolve(email);
+          let user = {};
+          user.email = payload['email'];
+          let fullName = payload['name'];
+          user.firstName = fullName.slice(0, fullName.indexOf(' '));
+          user.lastName = fullName.slice(fullName.indexOf(' ') + 1);
+          resolve(user);
         }
       }
     );
